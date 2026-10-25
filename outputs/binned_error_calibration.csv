@@ -1,0 +1,363 @@
+cohort,group,x,mid,y,n
+dev,NH White,true,-5,11.425948741223959,656
+dev,NH White,true,5,4.89306935543438,6912
+dev,NH White,true,15,0.5906491937482646,8408
+dev,NH White,true,25,-2.938878571948856,4358
+dev,NH White,true,35,-4.840364953207213,2078
+dev,NH White,true,45,-7.045107324055718,1198
+dev,NH White,true,55,-8.808062742252162,909
+dev,NH White,true,65,-10.059623969538002,649
+dev,NH White,true,75,-13.875133373958198,421
+dev,NH White,true,85,-17.08703115211343,265
+dev,NH White,true,95,-17.974418387355573,166
+dev,NH White,true,105,-16.765187003395774,77
+dev,NH White,true,115,-15.380353655133929,42
+dev,NH White,pred,-5,-1.443661971830986,142
+dev,NH White,pred,5,6.606730451996041,9093
+dev,NH White,pred,15,14.574373259052924,8975
+dev,NH White,pred,25,25.315420560747665,3424
+dev,NH White,pred,35,36.25649913344888,1731
+dev,NH White,pred,45,46.580882352941174,1088
+dev,NH White,pred,55,54.91689750692521,722
+dev,NH White,pred,65,65.24249422632795,433
+dev,NH White,pred,75,76.04868913857678,267
+dev,NH White,pred,85,86.38888888888889,144
+dev,NH White,pred,95,94.03846153846153,78
+dev,NH White,pred,105,104.78260869565217,46
+dev,NH Black,true,-5,12.484606746427849,560
+dev,NH Black,true,5,5.441920966081638,5479
+dev,NH Black,true,15,1.2084737408131827,6908
+dev,NH Black,true,25,-1.6671427443951319,3546
+dev,NH Black,true,35,-3.563521592646984,1622
+dev,NH Black,true,45,-7.2223433417714995,819
+dev,NH Black,true,55,-10.442637107951073,449
+dev,NH Black,true,65,-11.726789877718726,298
+dev,NH Black,true,75,-15.617866832123706,169
+dev,NH Black,true,85,-17.53123086431752,92
+dev,NH Black,true,95,-22.574921969709724,58
+dev,NH Black,pred,-5,-0.9375,64
+dev,NH Black,pred,5,6.282298782298782,6734
+dev,NH Black,pred,15,13.667698936313451,7427
+dev,NH Black,pred,25,23.5411051212938,2968
+dev,NH Black,pred,35,33.328611898016995,1412
+dev,NH Black,pred,45,41.78720445062587,719
+dev,NH Black,pred,55,52.17696629213483,356
+dev,NH Black,pred,65,62.473404255319146,188
+dev,NH Black,pred,75,76.19318181818181,88
+dev,NH Black,pred,85,80.39473684210526,38
+dev,NH Black,pred,95,95.75,20
+dev,NH Asian,true,-5,11.875829550694293,254
+dev,NH Asian,true,5,4.538521995389637,3284
+dev,NH Asian,true,15,0.26704176146137926,3584
+dev,NH Asian,true,25,-2.980444214103931,1708
+dev,NH Asian,true,35,-5.814475683697971,754
+dev,NH Asian,true,45,-8.278402173519135,400
+dev,NH Asian,true,55,-9.505527139119677,291
+dev,NH Asian,true,65,-11.586019361079646,197
+dev,NH Asian,true,75,-11.247719876468182,128
+dev,NH Asian,true,85,-13.298286347162156,63
+dev,NH Asian,true,95,-14.783273183382475,26
+dev,NH Asian,pred,-5,-0.8928571428571429,56
+dev,NH Asian,pred,5,6.4075382803298,4245
+dev,NH Asian,pred,15,14.301275239107333,3764
+dev,NH Asian,pred,25,24.160063391442154,1262
+dev,NH Asian,pred,35,35.896607431340875,619
+dev,NH Asian,pred,45,45.50156739811912,319
+dev,NH Asian,pred,55,56.954314720812185,197
+dev,NH Asian,pred,65,63.56481481481482,108
+dev,NH Asian,pred,75,71.91780821917808,73
+dev,NH Asian,pred,85,83.33333333333333,42
+dev,Mexican American,true,-5,11.919068168387893,194
+dev,Mexican American,true,5,5.296427375234121,3063
+dev,Mexican American,true,15,1.125262178628424,3932
+dev,Mexican American,true,25,-1.699888005632485,2030
+dev,Mexican American,true,35,-3.722899009606668,896
+dev,Mexican American,true,45,-4.902893943573112,536
+dev,Mexican American,true,55,-6.258788191650996,403
+dev,Mexican American,true,65,-7.494266983885202,322
+dev,Mexican American,true,75,-9.618144045484827,188
+dev,Mexican American,true,85,-13.610131846971749,121
+dev,Mexican American,true,95,-17.707040540633663,62
+dev,Mexican American,true,105,-22.508453895305767,29
+dev,Mexican American,pred,-5,-1.9230769230769231,39
+dev,Mexican American,pred,5,6.848930481283422,3740
+dev,Mexican American,pred,15,13.93347794649313,4149
+dev,Mexican American,pred,25,23.963776722090262,1684
+dev,Mexican American,pred,35,33.36065573770492,793
+dev,Mexican American,pred,45,42.43,500
+dev,Mexican American,pred,55,55.24324324324324,370
+dev,Mexican American,pred,65,63.55018587360595,269
+dev,Mexican American,pred,75,74.02985074626865,134
+dev,Mexican American,pred,85,83.04347826086956,69
+dev,Mexican American,pred,95,92.83783783783784,37
+dev,Other Hispanic,true,-5,12.111377605492143,157
+dev,Other Hispanic,true,5,5.0517218744106485,2391
+dev,Other Hispanic,true,15,1.196128889116503,3150
+dev,Other Hispanic,true,25,-1.4268192649906517,1755
+dev,Other Hispanic,true,35,-3.720639381050504,852
+dev,Other Hispanic,true,45,-5.4492962967265735,440
+dev,Other Hispanic,true,55,-7.054144223531087,333
+dev,Other Hispanic,true,65,-9.409023524328255,239
+dev,Other Hispanic,true,75,-12.85835794210434,160
+dev,Other Hispanic,true,85,-15.815317728433264,83
+dev,Other Hispanic,true,95,-24.50731203772805,44
+dev,Other Hispanic,pred,-5,-0.4838709677419355,31
+dev,Other Hispanic,pred,5,7.039687703318152,3074
+dev,Other Hispanic,pred,15,14.708029197080291,3288
+dev,Other Hispanic,pred,25,23.733859397417504,1394
+dev,Other Hispanic,pred,35,33.67801047120419,764
+dev,Other Hispanic,pred,45,43.60619469026549,452
+dev,Other Hispanic,pred,55,53.8562091503268,306
+dev,Other Hispanic,pred,65,65.92814371257485,167
+dev,Other Hispanic,pred,75,75.0,90
+dev,Other Hispanic,pred,85,78.45238095238095,42
+dev,Other/Multiracial,true,-5,13.028616892236672,89
+dev,Other/Multiracial,true,5,4.898683913059391,892
+dev,Other/Multiracial,true,15,0.2706666899874886,935
+dev,Other/Multiracial,true,25,-2.53720342554152,384
+dev,Other/Multiracial,true,35,-5.634665393829346,185
+dev,Other/Multiracial,true,45,-8.709654116368556,91
+dev,Other/Multiracial,true,55,-10.449094794013284,88
+dev,Other/Multiracial,true,65,-6.686335076226128,45
+dev,Other/Multiracial,true,75,-11.238375907720522,43
+dev,Other/Multiracial,pred,-5,-2.272727272727273,22
+dev,Other/Multiracial,pred,5,6.23342175066313,1131
+dev,Other/Multiracial,pred,15,13.73404255319149,940
+dev,Other/Multiracial,pred,25,24.35126582278481,316
+dev,Other/Multiracial,pred,35,32.70967741935484,155
+dev,Other/Multiracial,pred,45,42.41573033707865,89
+dev,Other/Multiracial,pred,55,57.767857142857146,56
+dev,Other/Multiracial,pred,65,68.88888888888889,36
+dev,Other/Multiracial,pred,75,74.16666666666667,24
+ext_a,NH White,true,-5,12.254523842921868,722
+ext_a,NH White,true,5,5.861337095857248,6416
+ext_a,NH White,true,15,1.1456931206742267,8190
+ext_a,NH White,true,25,-2.0894906508334063,4193
+ext_a,NH White,true,35,-3.99512016410413,1840
+ext_a,NH White,true,45,-5.882183216354897,1042
+ext_a,NH White,true,55,-6.926767852148869,878
+ext_a,NH White,true,65,-8.269120590578584,683
+ext_a,NH White,true,75,-11.050086620475064,476
+ext_a,NH White,true,85,-13.260996633646439,294
+ext_a,NH White,true,95,-12.112402058854888,158
+ext_a,NH White,true,105,-13.73278702629937,54
+ext_a,NH White,true,115,-16.72311222553253,32
+ext_a,NH White,pred,-5,-2.641509433962264,106
+ext_a,NH White,pred,5,6.892204628501827,8210
+ext_a,NH White,pred,15,13.646970048757836,8614
+ext_a,NH White,pred,25,23.387920673076923,3328
+ext_a,NH White,pred,35,33.726059199071386,1723
+ext_a,NH White,pred,45,43.98598130841121,1070
+ext_a,NH White,pred,55,54.38157894736842,760
+ext_a,NH White,pred,65,63.8268156424581,537
+ext_a,NH White,pred,75,72.72036474164133,329
+ext_a,NH White,pred,85,82.91208791208791,182
+ext_a,NH White,pred,95,94.59770114942529,87
+ext_a,NH White,pred,105,103.46153846153847,39
+ext_a,NH Black,true,-5,13.058853502966025,340
+ext_a,NH Black,true,5,6.3606836791937775,2927
+ext_a,NH Black,true,15,1.6039725741467525,3880
+ext_a,NH Black,true,25,-2.362272297967612,1812
+ext_a,NH Black,true,35,-4.226280178908035,783
+ext_a,NH Black,true,45,-5.8670788789406805,351
+ext_a,NH Black,true,55,-7.339879875183105,225
+ext_a,NH Black,true,65,-9.888686114794588,146
+ext_a,NH Black,true,75,-13.496780346601437,78
+ext_a,NH Black,true,85,-16.25010063534691,42
+ext_a,NH Black,true,95,-15.97538070678711,25
+ext_a,NH Black,pred,-5,-3.28125,32
+ext_a,NH Black,pred,5,6.543422184006879,3489
+ext_a,NH Black,pred,15,13.259545561021316,4269
+ext_a,NH Black,pred,25,21.477815699658702,1465
+ext_a,NH Black,pred,35,32.35658914728682,645
+ext_a,NH Black,pred,45,38.71641791044776,335
+ext_a,NH Black,pred,55,51.51428571428571,175
+ext_a,NH Black,pred,65,62.35537190082645,121
+ext_a,NH Black,pred,75,67.94117647058823,51
+ext_a,NH Black,pred,85,83.63636363636364,33
+ext_a,Mexican American,true,-5,12.497602019314805,310
+ext_a,Mexican American,true,5,5.873862643486212,3136
+ext_a,Mexican American,true,15,1.2686356213087508,4277
+ext_a,Mexican American,true,25,-2.2489740524487982,2141
+ext_a,Mexican American,true,35,-4.070737780653281,985
+ext_a,Mexican American,true,45,-5.547965174785099,511
+ext_a,Mexican American,true,55,-7.954189601245227,333
+ext_a,Mexican American,true,65,-8.567924229474905,279
+ext_a,Mexican American,true,75,-10.691980819112247,194
+ext_a,Mexican American,true,85,-14.25529221875952,109
+ext_a,Mexican American,true,95,-14.875178417527533,83
+ext_a,Mexican American,true,105,-2.673924207687378,32
+ext_a,Mexican American,true,115,-7.078588734502378,23
+ext_a,Mexican American,pred,-5,-1.1111111111111112,36
+ext_a,Mexican American,pred,5,7.220566318926974,4026
+ext_a,Mexican American,pred,15,13.89022787028922,4564
+ext_a,Mexican American,pred,25,23.356037151702786,1615
+ext_a,Mexican American,pred,35,32.95481569560047,841
+ext_a,Mexican American,pred,45,41.994219653179194,519
+ext_a,Mexican American,pred,55,51.38977635782748,313
+ext_a,Mexican American,pred,65,63.59090909090909,220
+ext_a,Mexican American,pred,75,73.61344537815125,119
+ext_a,Mexican American,pred,85,81.78571428571429,84
+ext_a,Mexican American,pred,95,93.90625,32
+ext_a,Mexican American,pred,105,104.74358974358974,39
+ext_a,Mexican American,pred,115,111.25,20
+ext_a,Other Hispanic,true,-5,13.945143020328354,68
+ext_a,Other Hispanic,true,5,5.960338577521546,699
+ext_a,Other Hispanic,true,15,0.721804879970373,940
+ext_a,Other Hispanic,true,25,-3.2287628269195556,475
+ext_a,Other Hispanic,true,35,-4.125366480119767,248
+ext_a,Other Hispanic,true,45,-7.739515694704923,110
+ext_a,Other Hispanic,true,55,-8.253878084818522,75
+ext_a,Other Hispanic,true,65,-12.767818098482879,46
+ext_a,Other Hispanic,true,75,-8.069609932277514,23
+ext_a,Other Hispanic,true,85,-15.736114916594133,23
+ext_a,Other Hispanic,pred,5,7.622298065984073,879
+ext_a,Other Hispanic,pred,15,14.232902033271719,1082
+ext_a,Other Hispanic,pred,25,23.649425287356323,348
+ext_a,Other Hispanic,pred,35,34.25714285714286,175
+ext_a,Other Hispanic,pred,45,41.666666666666664,99
+ext_a,Other Hispanic,pred,55,49.01960784313726,51
+ext_a,Other Hispanic,pred,65,57.15909090909091,44
+ext_a,Other Hispanic,pred,75,75.65217391304348,23
+ext_a,Other/Multiracial,true,-5,12.11396454476704,59
+ext_a,Other/Multiracial,true,5,6.0408062645875455,578
+ext_a,Other/Multiracial,true,15,0.7413090860503985,737
+ext_a,Other/Multiracial,true,25,-3.1149863375776725,363
+ext_a,Other/Multiracial,true,35,-6.784830371538798,144
+ext_a,Other/Multiracial,true,45,-8.123026628603881,87
+ext_a,Other/Multiracial,true,55,-8.092350991045842,61
+ext_a,Other/Multiracial,true,65,-4.241506314745136,51
+ext_a,Other/Multiracial,true,75,-10.091257640293666,28
+ext_a,Other/Multiracial,true,85,-13.230659848167782,21
+ext_a,Other/Multiracial,pred,5,6.697312588401697,707
+ext_a,Other/Multiracial,pred,15,13.807556080283353,847
+ext_a,Other/Multiracial,pred,25,24.3978102189781,274
+ext_a,Other/Multiracial,pred,35,34.55357142857143,112
+ext_a,Other/Multiracial,pred,45,42.6865671641791,67
+ext_a,Other/Multiracial,pred,55,56.59090909090909,44
+ext_a,Other/Multiracial,pred,65,64.87179487179488,39
+ext_a,Other/Multiracial,pred,75,72.5,28
+ext_b,NH White,true,5,11.762595586533093,548
+ext_b,NH White,true,15,6.778759048601381,1942
+ext_b,NH White,true,25,2.6140576145946426,2148
+ext_b,NH White,true,35,0.23496701835927383,1991
+ext_b,NH White,true,45,-0.7364342422020145,1640
+ext_b,NH White,true,55,-1.8030665370788026,1669
+ext_b,NH White,true,65,-1.3813238163109516,1988
+ext_b,NH White,true,75,-3.7854032945280123,1757
+ext_b,NH White,true,85,-7.202934168480538,1184
+ext_b,NH White,true,95,-10.727263942545349,727
+ext_b,NH White,true,105,-12.453649695260184,350
+ext_b,NH White,true,115,-20.361104007220376,442
+ext_b,NH White,pred,5,9.541284403669724,218
+ext_b,NH White,pred,15,16.57632522917497,2509
+ext_b,NH White,pred,25,25.54706853839802,2422
+ext_b,NH White,pred,35,35.44350842418236,2018
+ext_b,NH White,pred,45,45.925610448608744,1761
+ext_b,NH White,pred,55,56.83920126116658,1903
+ext_b,NH White,pred,65,66.77283950617284,2025
+ext_b,NH White,pred,75,75.95804988662131,1764
+ext_b,NH White,pred,85,86.51515151515152,1089
+ext_b,NH White,pred,95,98.66834170854271,398
+ext_b,NH White,pred,105,106.91717791411043,326
+ext_b,NH White,pred,115,116.8,125
+ext_b,NH Black,true,5,11.231929973889423,186
+ext_b,NH Black,true,15,6.781483573185365,681
+ext_b,NH Black,true,25,3.1430758122119404,649
+ext_b,NH Black,true,35,0.9895378326202606,572
+ext_b,NH Black,true,45,-0.7492634817517759,474
+ext_b,NH Black,true,55,-0.8755427562015158,355
+ext_b,NH Black,true,65,-3.6570822883682,301
+ext_b,NH Black,true,75,-6.258876387528547,254
+ext_b,NH Black,true,85,-10.96789584942718,134
+ext_b,NH Black,true,95,-14.104504952063927,39
+ext_b,NH Black,true,105,-13.789124679565429,20
+ext_b,NH Black,true,115,-23.083820125034876,35
+ext_b,NH Black,pred,5,8.875,80
+ext_b,NH Black,pred,15,15.429638854296389,803
+ext_b,NH Black,pred,25,24.295874822190612,703
+ext_b,NH Black,pred,35,33.9103690685413,569
+ext_b,NH Black,pred,45,42.89748953974895,478
+ext_b,NH Black,pred,55,53.05813953488372,430
+ext_b,NH Black,pred,65,64.52802359882006,339
+ext_b,NH Black,pred,75,73.20855614973262,187
+ext_b,NH Black,pred,85,79.0,70
+ext_b,NH Black,pred,95,97.85714285714286,28
+ext_b,NH Black,pred,105,108.47826086956522,23
+ext_b,NH Asian,true,5,11.134810161590575,30
+ext_b,NH Asian,true,15,4.09051971221238,89
+ext_b,NH Asian,true,25,4.712537069169302,126
+ext_b,NH Asian,true,35,-0.1901230200743064,78
+ext_b,NH Asian,true,45,-0.40811049660971,86
+ext_b,NH Asian,true,55,-3.1640566734418476,73
+ext_b,NH Asian,true,65,-2.9675971984863283,70
+ext_b,NH Asian,true,75,-5.450492484896791,51
+ext_b,NH Asian,true,85,-7.7138703918457034,25
+ext_b,NH Asian,pred,15,14.728682170542635,129
+ext_b,NH Asian,pred,25,24.471153846153847,104
+ext_b,NH Asian,pred,35,36.584158415841586,101
+ext_b,NH Asian,pred,45,44.470588235294116,85
+ext_b,NH Asian,pred,55,53.292682926829265,82
+ext_b,NH Asian,pred,65,64.35714285714286,70
+ext_b,NH Asian,pred,75,76.42857142857143,42
+ext_b,NH Asian,pred,85,88.33333333333333,24
+ext_b,Mexican American,true,5,11.081066526685442,70
+ext_b,Mexican American,true,15,5.939808172338149,272
+ext_b,Mexican American,true,25,3.426219740864548,311
+ext_b,Mexican American,true,35,0.6707013195958631,290
+ext_b,Mexican American,true,45,-0.3287403453480114,220
+ext_b,Mexican American,true,55,-1.6181771515538452,189
+ext_b,Mexican American,true,65,-1.8200285165206245,230
+ext_b,Mexican American,true,75,-5.243368403796843,187
+ext_b,Mexican American,true,85,-6.002213036836083,134
+ext_b,Mexican American,true,95,-10.107601604242435,87
+ext_b,Mexican American,true,105,-12.585808563232423,40
+ext_b,Mexican American,true,115,-16.936797247992622,45
+ext_b,Mexican American,pred,5,9.0,30
+ext_b,Mexican American,pred,15,16.87323943661972,355
+ext_b,Mexican American,pred,25,25.96273291925466,322
+ext_b,Mexican American,pred,35,34.74910394265233,279
+ext_b,Mexican American,pred,45,44.641350210970465,237
+ext_b,Mexican American,pred,55,56.19246861924686,239
+ext_b,Mexican American,pred,65,65.71428571428571,217
+ext_b,Mexican American,pred,75,74.63276836158192,177
+ext_b,Mexican American,pred,85,84.87068965517241,116
+ext_b,Mexican American,pred,95,90.14925373134328,67
+ext_b,Mexican American,pred,105,107.0,30
+ext_b,Mexican American,pred,115,118.25,20
+ext_b,Other Hispanic,true,5,11.84103456735611,40
+ext_b,Other Hispanic,true,15,7.2714665378843035,140
+ext_b,Other Hispanic,true,25,1.454122311970186,169
+ext_b,Other Hispanic,true,35,-0.6685042794295183,127
+ext_b,Other Hispanic,true,45,0.6263009876880831,103
+ext_b,Other Hispanic,true,55,-0.7435831782793758,99
+ext_b,Other Hispanic,true,65,-2.756842090969994,84
+ext_b,Other Hispanic,true,75,-5.522756342302289,57
+ext_b,Other Hispanic,true,85,-14.106373680962456,36
+ext_b,Other Hispanic,pred,15,16.492537313432837,201
+ext_b,Other Hispanic,pred,25,25.292207792207794,154
+ext_b,Other Hispanic,pred,35,36.030534351145036,131
+ext_b,Other Hispanic,pred,45,42.757009345794394,107
+ext_b,Other Hispanic,pred,55,54.55,100
+ext_b,Other Hispanic,pred,65,62.94117647058823,85
+ext_b,Other Hispanic,pred,75,66.92307692307692,52
+ext_b,Other Hispanic,pred,85,90.33333333333333,30
+ext_b,Other/Multiracial,true,5,9.91140870044106,38
+ext_b,Other/Multiracial,true,15,4.0901228399837715,119
+ext_b,Other/Multiracial,true,25,3.522621838733403,99
+ext_b,Other/Multiracial,true,35,-1.0253854806606586,104
+ext_b,Other/Multiracial,true,45,-3.279002936489611,83
+ext_b,Other/Multiracial,true,55,-1.7872072654434397,79
+ext_b,Other/Multiracial,true,65,-3.4189477174178413,92
+ext_b,Other/Multiracial,true,75,-2.9341000839018485,71
+ext_b,Other/Multiracial,true,85,-7.992924910325271,39
+ext_b,Other/Multiracial,true,95,-14.861484255109515,42
+ext_b,Other/Multiracial,true,115,-21.704010673191238,23
+ext_b,Other/Multiracial,pred,15,14.84472049689441,161
+ext_b,Other/Multiracial,pred,25,27.872340425531913,141
+ext_b,Other/Multiracial,pred,35,37.83505154639175,97
+ext_b,Other/Multiracial,pred,45,47.142857142857146,84
+ext_b,Other/Multiracial,pred,55,58.294117647058826,85
+ext_b,Other/Multiracial,pred,65,68.24675324675324,77
+ext_b,Other/Multiracial,pred,75,76.35593220338983,59
+ext_b,Other/Multiracial,pred,85,84.91935483870968,62

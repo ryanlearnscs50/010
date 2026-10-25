@@ -1,0 +1,284 @@
+{
+  "xgb_params": {
+    "cv_folds": [
+      {
+        "max_depth": 3,
+        "n_estimators": 150
+      },
+      {
+        "max_depth": 3,
+        "n_estimators": 150
+      },
+      {
+        "max_depth": 3,
+        "n_estimators": 150
+      },
+      {
+        "max_depth": 3,
+        "n_estimators": 150
+      },
+      {
+        "max_depth": 3,
+        "n_estimators": 150
+      }
+    ],
+    "final": {
+      "max_depth": 3,
+      "n_estimators": 150
+    }
+  },
+  "retest_1k": {
+    "dev": {
+      "mean_abs_diff": 1.7552240645996424,
+      "n_ears": 16223,
+      "within10": 0.9999383591197682,
+      "Copy_mae_1k": 6.455508996795662,
+      "XGBoost_mae_1k": 5.18375394778041
+    },
+    "ext_a": {
+      "mean_abs_diff": 1.7806536935575288,
+      "n_ears": 10586,
+      "within10": 0.9997166068392216,
+      "Copy_mae_1k": 6.7751227805062335,
+      "XGBoost_mae_1k": 5.473027145633601
+    },
+    "ext_b": {
+      "mean_abs_diff": 1.655542071197411,
+      "n_ears": 4944,
+      "within10": 1.0,
+      "Copy_mae_1k": 12.44949494949495,
+      "XGBoost_mae_1k": 8.472548698078503
+    }
+  },
+  "be4fa_mae": {
+    "dev": {
+      "Copy": 3.1314702982499383,
+      "Ridge": 2.2625235436449858,
+      "XGBoost": 2.1888869851692183
+    },
+    "ext_a": {
+      "Copy": 3.2345579901775596,
+      "Ridge": 2.3704455237490802,
+      "XGBoost": 2.2839292735030257
+    },
+    "ext_b": {
+      "Copy": 6.0368686868686865,
+      "Ridge": 3.8522882692258573,
+      "XGBoost": 3.725804739672728
+    }
+  },
+  "survey_weighted_dev": {
+    "overall_mae_weighted": 6.928700050255353,
+    "prev_who20_weighted": 0.14910102373496414,
+    "prev_who35_weighted": 0.027542838981654227,
+    "groups": {
+      "NH White": {
+        "mae_w": 7.11816617813113,
+        "sens20_w": 0.8025416267024348,
+        "spec20_w": 0.9849009926327686
+      },
+      "NH Black": {
+        "mae_w": 6.606375795527278,
+        "sens20_w": 0.775929282637954,
+        "spec20_w": 0.9826869415923649
+      },
+      "NH Asian": {
+        "mae_w": 6.35480285420232,
+        "sens20_w": 0.7678323316142425,
+        "spec20_w": 0.9864880456628393
+      },
+      "Mexican American": {
+        "mae_w": 6.5881864734304445,
+        "sens20_w": 0.7778754673463044,
+        "spec20_w": 0.9877116790728988
+      },
+      "Other Hispanic": {
+        "mae_w": 6.484990616538003,
+        "sens20_w": 0.757793546552525,
+        "spec20_w": 0.9854837716235703
+      },
+      "Other/Multiracial": {
+        "mae_w": 7.063564529057191,
+        "sens20_w": 0.8825475201474576,
+        "spec20_w": 0.9738654124368995
+      }
+    }
+  },
+  "sensitivity": {
+    "primary_features": {
+      "n": 8114,
+      "mae": 6.89831780752455,
+      "sens20": 0.8117932148626817,
+      "spec20": 0.9813845258871436,
+      "auc20": 0.9849519905343772,
+      "group_mae": {
+        "NH White": 7.104687266871374,
+        "NH Black": 6.810471737810278,
+        "NH Asian": 6.442565506490262,
+        "Mexican American": 6.945631517778324,
+        "Other Hispanic": 6.97494113719002,
+        "Other/Multiracial": 6.879540509912502
+      },
+      "group_sens20": {
+        "NH White": 0.8155555555555556,
+        "NH Black": 0.8042553191489362,
+        "NH Asian": 0.7619047619047619,
+        "Mexican American": 0.8341232227488151,
+        "Other Hispanic": 0.8176795580110497,
+        "Other/Multiracial": 0.8285714285714286
+      }
+    },
+    "thresholds_only": {
+      "n": 8114,
+      "mae": 7.07732944830156,
+      "sens20": 0.8166397415185783,
+      "spec20": 0.9800756253635835,
+      "auc20": 0.9847879961769108,
+      "group_mae": {
+        "NH White": 7.306355055358674,
+        "NH Black": 6.951165661515664,
+        "NH Asian": 6.598923344372569,
+        "Mexican American": 7.172153510561772,
+        "Other Hispanic": 7.130833862741842,
+        "Other/Multiracial": 7.087305065431369
+      },
+      "group_sens20": {
+        "NH White": 0.82,
+        "NH Black": 0.8170212765957446,
+        "NH Asian": 0.7619047619047619,
+        "Mexican American": 0.8341232227488151,
+        "Other Hispanic": 0.8232044198895028,
+        "Other/Multiracial": 0.8285714285714286
+      }
+    },
+    "plus_pir_noise_cc": {
+      "n": 7377,
+      "mae": 6.888776170207295,
+      "sens20": 0.8089686098654708,
+      "spec20": 0.9819546470776109,
+      "auc20": 0.9849303865725789,
+      "group_mae": {
+        "NH White": 7.078658240310173,
+        "NH Black": 6.793100320773278,
+        "NH Asian": 6.424307240675558,
+        "Mexican American": 7.004796248544223,
+        "Other Hispanic": 6.919419567704427,
+        "Other/Multiracial": 6.830792855356067
+      },
+      "group_sens20": {
+        "NH White": 0.8190255220417634,
+        "NH Black": 0.795,
+        "NH Asian": 0.7477477477477478,
+        "Mexican American": 0.8333333333333334,
+        "Other Hispanic": 0.8141025641025641,
+        "Other/Multiracial": 0.8064516129032258
+      }
+    },
+    "primary_features_same_cc": {
+      "n": 7377,
+      "mae": 6.890615935144173,
+      "sens20": 0.8134529147982063,
+      "spec20": 0.9822740338549985,
+      "auc20": 0.9849191435851238,
+      "group_mae": {
+        "NH White": 7.088454916793294,
+        "NH Black": 6.7862746899327675,
+        "NH Asian": 6.439539061766416,
+        "Mexican American": 6.989749252239259,
+        "Other Hispanic": 6.916723076853382,
+        "Other/Multiracial": 6.8507521534275755
+      },
+      "group_sens20": {
+        "NH White": 0.814385150812065,
+        "NH Black": 0.81,
+        "NH Asian": 0.7657657657657657,
+        "Mexican American": 0.8387096774193549,
+        "Other Hispanic": 0.8205128205128205,
+        "Other/Multiracial": 0.8064516129032258
+      }
+    },
+    "excl_recent_ear_illness": {
+      "n": 7185,
+      "mae": 6.860600715138325,
+      "sens20": 0.8061509785647717,
+      "spec20": 0.9820026178010471,
+      "auc20": 0.9851886408659969,
+      "group_mae": {
+        "NH White": 7.069620217378612,
+        "NH Black": 6.774224444733258,
+        "NH Asian": 6.428994398706596,
+        "Mexican American": 6.914697987958702,
+        "Other Hispanic": 6.895220910912501,
+        "Other/Multiracial": 6.8796031016323145
+      },
+      "group_sens20": {
+        "NH White": 0.8177083333333334,
+        "NH Black": 0.7755102040816326,
+        "NH Asian": 0.7672413793103449,
+        "Mexican American": 0.8263157894736842,
+        "Other Hispanic": 0.8193548387096774,
+        "Other/Multiracial": 0.8125
+      }
+    },
+    "excl_any_no_response": {
+      "n": 8081,
+      "mae": 6.86628646279923,
+      "sens20": 0.8061309030654515,
+      "spec20": 0.9806517311608961,
+      "auc20": 0.9847278832935313,
+      "group_mae": {
+        "NH White": 7.073894624241807,
+        "NH Black": 6.7793230709418655,
+        "NH Asian": 6.455325478223962,
+        "Mexican American": 6.888294984446044,
+        "Other Hispanic": 6.920139683545425,
+        "Other/Multiracial": 6.8530738187431215
+      },
+      "group_sens20": {
+        "NH White": 0.8091954022988506,
+        "NH Black": 0.782608695652174,
+        "NH Asian": 0.7619047619047619,
+        "Mexican American": 0.8423645320197044,
+        "Other Hispanic": 0.8156424581005587,
+        "Other/Multiracial": 0.8235294117647058
+      }
+    },
+    "with_race_feature": {
+      "n": 8114,
+      "mae": 6.880383240050096,
+      "sens20": 0.808562197092084,
+      "spec20": 0.9818208260616638,
+      "auc20": 0.9850415648163029,
+      "group_mae": {
+        "NH White": 7.104913673966351,
+        "NH Black": 6.740915688518063,
+        "NH Asian": 6.4562900422678355,
+        "Mexican American": 6.923691041168236,
+        "Other Hispanic": 6.96493210788574,
+        "Other/Multiracial": 6.93035053566472
+      },
+      "group_sens20": {
+        "NH White": 0.8177777777777778,
+        "NH Black": 0.774468085106383,
+        "NH Asian": 0.7698412698412699,
+        "Mexican American": 0.8341232227488151,
+        "Other Hispanic": 0.8232044198895028,
+        "Other/Multiracial": 0.8285714285714286
+      }
+    }
+  },
+  "shap_mean_over_targets": {
+    "R_2k": 1.777409553527832,
+    "R_4k": 3.0969135761260986,
+    "L_2k": 1.8034166097640991,
+    "L_4k": 3.4485650062561035,
+    "age": 1.6305181980133057,
+    "female": 0.4736953675746918
+  },
+  "versions": {
+    "xgboost": "3.4.1",
+    "pandas": "2.3.3",
+    "numpy": "2.4.0"
+  },
+  "runtime_s": 680.0499880313873
+}
