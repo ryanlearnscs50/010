@@ -1,0 +1,29 @@
+\begin{table}[p]
+\centering
+\caption{Threshold prediction error by frequency, cohort and model.}
+\label{tab:mae}
+\small
+\begin{tabular}{l rrrrr rr}
+\toprule
+Model & 0.5 kHz & 1 kHz & 3 kHz & 6 kHz & 8 kHz & Overall & $\pm$10 dB (\%) \\
+\midrule
+\multicolumn{8}{l}{\textit{Development}} \\
+\quad Copy & 7.83 & 6.46 & 5.44 & 10.07 & 13.08 & 8.58 & 76.8 \\
+\quad Age-sex norm & 6.74 & 6.75 & 9.64 & 11.81 & 12.96 & 9.58 & 76.1 \\
+\quad Ridge & 6.07 & 5.41 & 5.36 & 8.27 & 10.45 & 7.11 & 76.4 \\
+\quad XGBoost & 5.85 & 5.18 & 5.26 & 8.04 & 10.15 & 6.90 & 77.8 \\
+\multicolumn{8}{l}{\textit{External A}} \\
+\quad Copy & 8.20 & 6.78 & 5.60 & 10.59 & 11.92 & 8.62 & 76.7 \\
+\quad Age-sex norm & 7.43 & 6.94 & 10.03 & 12.58 & 13.33 & 10.06 & 74.5 \\
+\quad Ridge & 6.43 & 5.72 & 5.64 & 9.04 & 10.94 & 7.55 & 73.7 \\
+\quad XGBoost & 6.27 & 5.47 & 5.49 & 8.66 & 10.61 & 7.30 & 75.5 \\
+\multicolumn{8}{l}{\textit{External B}} \\
+\quad Copy & 15.64 & 12.44 & 5.98 & 11.76 & 19.22 & 13.01 & 59.2 \\
+\quad Age-sex norm & 14.06 & 15.80 & 23.68 & 27.77 & 27.19 & 21.70 & 39.3 \\
+\quad Ridge & 10.00 & 8.70 & 5.81 & 9.59 & 12.46 & 9.31 & 64.3 \\
+\quad XGBoost & 9.74 & 8.47 & 5.77 & 9.47 & 12.39 & 9.17 & 65.0 \\
+\bottomrule
+\end{tabular}
+\par\smallskip\raggedright
+Mean absolute error (dB) at each predicted frequency (both ears pooled), overall per-participant MAE, and percentage of predicted thresholds within $\pm$10~dB. Development values are out-of-fold (5-fold cross-validation). External values come from models fitted once to the whole development cohort and applied unchanged. Copy: 0.5 and 1~kHz set to the measured 2~kHz threshold, 3~kHz to the mean of 2 and 4~kHz, and 6 and 8~kHz to the measured 4~kHz threshold, all in the same ear. Age-sex norm: median threshold by age decade and sex (participants aged 70 or over were assigned the 60--69 norm).
+\end{table}

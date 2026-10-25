@@ -1,0 +1,44 @@
+\begin{table}[p]
+\centering
+\caption{Classification of WHO 2021 hearing loss using each score at the WHO cut-off.}
+\label{tab:triage}
+\small
+\begin{tabular}{l ccccc}
+\toprule
+Score & Sensitivity (95\% CI) & Specificity (95\% CI) & PPV & NPV & AUC \\
+\midrule
+\multicolumn{6}{l}{\textit{Development, BE4FA $\geq$20 dB HL (n = 1,238 with hearing loss)}} \\
+\quad XGBoost-completed BE4FA & 0.81 (0.79--0.83) & 0.98 (0.98--0.98) & 0.89 & 0.97 & 0.985 \\
+\quad Ridge-completed BE4FA & 0.82 (0.80--0.84) & 0.98 (0.98--0.98) & 0.89 & 0.97 & 0.985 \\
+\quad Copy-completed BE4FA & 0.89 (0.87--0.90) & 0.96 (0.95--0.96) & 0.79 & 0.98 & 0.982 \\
+\quad Measured 2/4 kHz average & 0.95 (0.94--0.96) & 0.91 (0.90--0.91) & 0.65 & 0.99 & 0.982 \\
+\multicolumn{6}{l}{\textit{Development, BE4FA $\geq$35 dB HL (n = 243 with hearing loss)}} \\
+\quad XGBoost-completed BE4FA & 0.75 (0.69--0.81) & 1.00 (0.99--1.00) & 0.85 & 0.99 & 0.995 \\
+\quad Ridge-completed BE4FA & 0.78 (0.72--0.83) & 0.99 (0.99--1.00) & 0.79 & 0.99 & 0.995 \\
+\quad Copy-completed BE4FA & 0.93 (0.90--0.96) & 0.98 (0.98--0.98) & 0.60 & 1.00 & 0.995 \\
+\quad Measured 2/4 kHz average & 0.96 (0.94--0.98) & 0.96 (0.95--0.96) & 0.41 & 1.00 & 0.993 \\
+\multicolumn{6}{l}{\textit{External A, BE4FA $\geq$20 dB HL (n = 934 with hearing loss)}} \\
+\quad XGBoost-completed BE4FA & 0.81 (0.79--0.84) & 0.99 (0.98--0.99) & 0.92 & 0.96 & 0.985 \\
+\quad Ridge-completed BE4FA & 0.81 (0.79--0.84) & 0.99 (0.98--0.99) & 0.92 & 0.96 & 0.985 \\
+\quad Copy-completed BE4FA & 0.88 (0.86--0.90) & 0.96 (0.95--0.97) & 0.82 & 0.97 & 0.983 \\
+\quad Measured 2/4 kHz average & 0.95 (0.93--0.96) & 0.91 (0.90--0.91) & 0.68 & 0.99 & 0.981 \\
+\multicolumn{6}{l}{\textit{External A, BE4FA $\geq$35 dB HL (n = 190 with hearing loss)}} \\
+\quad XGBoost-completed BE4FA & 0.78 (0.72--0.84) & 1.00 (0.99--1.00) & 0.87 & 0.99 & 0.997 \\
+\quad Ridge-completed BE4FA & 0.82 (0.76--0.87) & 0.99 (0.99--0.99) & 0.80 & 0.99 & 0.996 \\
+\quad Copy-completed BE4FA & 0.96 (0.93--0.98) & 0.98 (0.98--0.98) & 0.65 & 1.00 & 0.996 \\
+\quad Measured 2/4 kHz average & 0.98 (0.97--1.00) & 0.94 (0.94--0.95) & 0.40 & 1.00 & 0.993 \\
+\multicolumn{6}{l}{\textit{External B, BE4FA $\geq$20 dB HL (n = 1,957 with hearing loss)}} \\
+\quad XGBoost-completed BE4FA & 0.94 (0.93--0.95) & 0.85 (0.82--0.88) & 0.96 & 0.79 & 0.975 \\
+\quad Ridge-completed BE4FA & 0.94 (0.93--0.95) & 0.86 (0.82--0.88) & 0.96 & 0.79 & 0.976 \\
+\quad Copy-completed BE4FA & 0.97 (0.96--0.98) & 0.75 (0.71--0.78) & 0.93 & 0.86 & 0.971 \\
+\quad Measured 2/4 kHz average & 0.99 (0.98--0.99) & 0.56 (0.51--0.60) & 0.89 & 0.91 & 0.972 \\
+\multicolumn{6}{l}{\textit{External B, BE4FA $\geq$35 dB HL (n = 1,002 with hearing loss)}} \\
+\quad XGBoost-completed BE4FA & 0.88 (0.86--0.90) & 0.94 (0.93--0.95) & 0.91 & 0.92 & 0.979 \\
+\quad Ridge-completed BE4FA & 0.91 (0.89--0.93) & 0.92 (0.91--0.94) & 0.89 & 0.94 & 0.979 \\
+\quad Copy-completed BE4FA & 0.98 (0.97--0.99) & 0.81 (0.79--0.83) & 0.78 & 0.98 & 0.979 \\
+\quad Measured 2/4 kHz average & 1.00 (0.99--1.00) & 0.65 (0.62--0.67) & 0.66 & 1.00 & 0.972 \\
+\bottomrule
+\end{tabular}
+\par\smallskip\raggedright
+Each score is compared with the cut-off that defines the reference standard (20 or 35~dB~HL). Completed BE4FA scores use the measured 2 and 4~kHz thresholds and the predicted 0.5 and 1~kHz thresholds. The measured 2/4~kHz average is the better-ear mean of the two measured thresholds. CIs are from 500 participant-level bootstrap resamples. PPV and NPV depend on prevalence and apply to these samples only.
+\end{table}

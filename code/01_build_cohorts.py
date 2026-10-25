@@ -7,9 +7,11 @@ Cohorts
   ext_b  : 2005-2006 + 2009-2010 + 2017-2018, ages 70+ (older, hearing-loss-enriched external test)
 
 Threshold coding (NHANES AUX codebooks):
-  666 = no response at maximum output -> censored; set to (max valid level at that frequency + 5 dB)
+  666 = no response at maximum output -> censored; set to (max valid level at that frequency recorded with
+        the same audiometer system + 5 dB). AD226 (1999-2016): manual limit 120 dB HL (110 at 8 kHz).
+        ART (2017-2018): lower output limits (about 100 dB HL; 90 at 8 kHz in automated mode).
   888 = could not obtain -> missing
-  No upper cap on valid values (valid range is -10 to 120 dB HL; 8 kHz to 110 dB HL).
+  No upper cap on valid values.
   The first 1 kHz measurement (AUXU1K1x) is used; the retest (AUXU1K2x) is kept for test-retest.
 
 Run from the 5_resubmission folder:  python -I code/01_build_cohorts.py
@@ -44,8 +46,8 @@ SRC = {"500": "AUXU500", "1k": "AUXU1K1", "2k": "AUXU2K", "3k": "AUXU3K",
 EARS = ["R", "L"]
 THR_COLS = [f"{e}_{f}" for e in EARS for f in FREQS]
 
-# Censoring level for 666 = highest valid value observed at that frequency (all cycles) + 5 dB
-CENSOR = {"500": 125, "1k": 125, "2k": 125, "3k": 125, "4k": 125, "6k": 125, "8k": 115}
+# Audiometer system by cycle (NHANES AUX documentation): Interacoustics AD226 to 2016, ART system in 2017-2018
+SYSTEM = {c: ("ART" if c == "2017-2018" else "AD226") for c in CYCLES}
 
 # Race/ethnicity. RIDRETH3 (with NH Asian) exists from 2011; earlier cycles only RIDRETH1.
 R3 = {1: "Mexican American", 2: "Other Hispanic", 3: "NH White", 4: "NH Black",
@@ -58,7 +60,25 @@ def read(name):
     return pd.read_sas(RAW / f"{name}.xpt", format="xport")
 
 
-def code_thresholds(aux):
+def max_valid(names):
+    """Highest valid (non-666/888) threshold at each frequency, both ears, all ages, over the given AUX files."""
+    m = {f: -np.inf for f in FREQS}
+    for n in names:
+        aux = read(n)
+        for f in FREQS:
+            for e in EARS:
+                v = aux[f"{SRC[f]}{e}"]
+                m[f] = max(m[f], v[~v.isin([666, 888])].max())
+    return m
+
+
+# Censoring level for 666 = highest valid value at that frequency with the same audiometer system + 5 dB
+CENSOR = {s: {f: v + 5 for f, v in max_valid([CYCLES[c][2] for c in CYCLES if SYSTEM[c] == s]).items()}
+          for s in ["AD226", "ART"]}
+print("666 censoring levels (dB HL):", CENSOR)
+
+
+def code_thresholds(aux, censor):
     out = pd.DataFrame({"SEQN": aux["SEQN"]})
     n666 = n888 = 0
     for e in EARS:
@@ -67,7 +87,7 @@ def code_thresholds(aux):
             n666 += int((v == 666).sum())
             n888 += int((v == 888).sum())
             v = v.where(v != 888)
-            v = v.where(v != 666, CENSOR[f])
+            v = v.where(v != 666, censor[f])
             out[f"{e}_{f}"] = v
             out[f"{e}_{f}_nr"] = (aux[f"{SRC[f]}{e}"] == 666).astype(int)
         # 1 kHz retest
@@ -86,7 +106,7 @@ for cycle, (suf, cohort, auxf, demf, auqf) in CYCLES.items():
         keep.append("RIDRETH3")
     dem = dem[[c for c in keep if c in dem.columns]]
 
-    thr, n666, n888 = code_thresholds(aux)
+    thr, n666, n888 = code_thresholds(aux, CENSOR[SYSTEM[cycle]])
     extra = [c for c in ["AUQ020"] if c in aux.columns]
     thr = thr.merge(aux[["SEQN"] + extra], on="SEQN", how="left")
     d = dem.merge(thr, on="SEQN", how="inner")

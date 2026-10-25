@@ -5,17 +5,17 @@ This folder holds the code and outputs behind the manuscript in `manuscript/`. I
 ## How to reproduce
 
 ```bash
-pip install pandas numpy scipy scikit-learn xgboost statsmodels matplotlib requests
+pip install -r requirements.txt       # pinned versions used for the paper (Python 3.13)
 python -I code/00_download.py         # downloads 24 NHANES .xpt files into data_raw/ (about 70 MB)
 python -I code/01_build_cohorts.py    # writes data_derived/cohorts.csv and cohort_flow.csv
 python -I code/02_models_and_audit.py # writes outputs/*.csv and outputs/results.json (about 15-25 min on a laptop CPU)
 python -I code/02b_triage_extras.py   # AUC differences, matched specificity, group detection models
-python -I code/03_figures.py          # writes figures/*.png and figures/*.pdf
+python -I code/03_figures.py          # writes figures/*.png, figures/*.pdf and submission/figures_for_upload/*.tiff
 python -I code/04_numbers_for_paper.py # writes manuscript/numbers.tex and manuscript/tables/*.tex
 python -I code/05_make_submission_version.py # journal version (figures as separate files)
 ```
 
-Fixed seed: 2026. Package versions used are recorded in `outputs/results.json` under `versions`.
+Fixed seed: 2026. Package versions used are recorded in `outputs/results.json` under `versions`. Steps 04 and 05 write into `manuscript/` (LaTeX source included); the PDFs were compiled with Tectonic 0.15.0.
 
 ## Cohorts
 
@@ -31,7 +31,7 @@ NHANES tested adults aged 20–69 only in the cycles listed under Development an
 
 - **Inputs:** measured 2 and 4 kHz thresholds in both ears, age and sex.
 - **Targets:** 0.5, 1, 3, 6 and 8 kHz thresholds in both ears.
-- **Threshold codes:** 666 (no response) is set to 5 dB above the highest valid level at that frequency. 888 (could not obtain) is treated as missing. No upper cap is applied to valid values. The first 1 kHz measurement is used, and the 1 kHz retest is kept to estimate test–retest variability.
+- **Threshold codes:** 666 (no response) is set to 5 dB above the highest valid level at that frequency recorded with the same audiometer system (AD226 for 1999–2016, ART for 2017–2018, which has a lower output limit). 888 (could not obtain) is treated as missing. No upper cap is applied to valid values. The first 1 kHz measurement is used, and the 1 kHz retest is kept to estimate test–retest variability.
 - **Hearing loss:** WHO 2021 grading. This uses the better-ear four-frequency average (0.5, 1, 2 and 4 kHz): ≥20 dB HL counts as any hearing loss and ≥35 dB HL as moderate or worse.
 - **Models:** Copy (nearest measured frequency), Age-sex norm (median audiogram by age decade and sex), Ridge (RidgeCV), and XGBoost (`xgboost.XGBRegressor`, tuned by nested CV).
 

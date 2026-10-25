@@ -1,5 +1,10 @@
 data_raw/
 data_derived/
-manuscript/
 __pycache__/
 *.pyc
+submission/
+manuscript/*.pdf
+manuscript/*.aux
+manuscript/*.log
+manuscript/*.bbl
+manuscript/*.blg

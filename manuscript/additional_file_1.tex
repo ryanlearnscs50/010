@@ -1,0 +1,50 @@
+\documentclass[11pt]{article}
+\usepackage[a4paper,margin=2.5cm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{textcomp}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{setspace}
+\usepackage{lineno}
+\usepackage[numbers,sort&compress]{natbib}
+\usepackage[hidelinks]{hyperref}
+\usepackage{caption}
+\captionsetup{font=small,labelfont=bf}
+\usepackage{float}
+\usepackage{rotating}
+
+\input{numbers.tex}
+
+\doublespacing
+
+
+\title{Machine-learning completion of sparse audiograms for hearing-loss triage: external validation and subgroup audit in \NTotal{} NHANES adults}
+\author{Ryan Yi Sheng Neo\\[2pt]
+\small Independent researcher, Singapore\\
+\small Correspondence: \href{mailto:realryanneo@gmail.com}{realryanneo@gmail.com}}
+\date{}
+
+\begin{document}
+\section*{Additional file 1}
+Neo RYS. Machine-learning completion of sparse audiograms for hearing-loss triage: external validation and subgroup audit in NHANES adults.
+
+\renewcommand{\thetable}{S\arabic{table}}
+\renewcommand{\thefigure}{S\arabic{figure}}
+\setcounter{table}{0}
+\setcounter{figure}{0}
+\input{tables/tableS1_sensitivity.tex}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.8\textwidth]{figS1_shap.pdf}
+\caption{Mean absolute TreeSHAP attribution (dB) of each input to each predicted threshold, for the final XGBoost model fitted to the development cohort.}
+\label{fig:shap}
+\end{figure}
+
+
+
+\end{document}

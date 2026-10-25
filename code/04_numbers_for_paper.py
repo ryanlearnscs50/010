@@ -130,6 +130,8 @@ for c, k in COH.items():
 for c, k in COH.items():
     s = tg[(tg.cohort == c) & (tg.cut == 20) & (tg.score == "XGBoost 4FA")]
     M[f"SensGrpMin{k}"], M[f"SensGrpMax{k}"] = f2(s.sens.min()), f2(s.sens.max())
+    for _, r in s.iterrows():
+        M[f"SpecXgb{GKEY[r.group]}{k}"] = f3(r.spec)
 
 # ---- subgroup error audit
 for c, k in COH.items():

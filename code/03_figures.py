@@ -35,9 +35,15 @@ GROUPS = ["NH White", "NH Black", "NH Asian", "Mexican American", "Other Hispani
 parse = lambda s: ast.literal_eval(s) if isinstance(s, str) else s
 
 
+TIFF = ROOT / "submission" / "figures_for_upload"  # 300 dpi files for journal upload (main-text figures only)
+TIFF.mkdir(parents=True, exist_ok=True)
+
+
 def save(fig, name):
     fig.savefig(FIG / f"{name}.png", bbox_inches="tight")
     fig.savefig(FIG / f"{name}.pdf", bbox_inches="tight")
+    if name.startswith("fig") and not name.startswith("figS"):
+        fig.savefig(TIFF / f"{name}.tiff", bbox_inches="tight", pil_kwargs={"compression": "tiff_lzw"})
     plt.close(fig)
 
 
@@ -109,7 +115,7 @@ for k in ["sens_ci", "spec_ci"]:
     tg[k] = tg[k].apply(parse)
 scores = ["XGBoost 4FA", "Copy 4FA", "Measured HFA (2,4 kHz)"]
 slabel = {"XGBoost 4FA": "XGBoost-completed 4FA", "Copy 4FA": "Copy-completed 4FA",
-          "Measured HFA (2,4 kHz)": "Measured 2–4 kHz average"}
+          "Measured HFA (2,4 kHz)": "Measured 2/4 kHz average"}
 fig, axes = plt.subplots(2, 3, figsize=(10, 6.0), sharey=True)
 for col, c in enumerate(COH):
     for row, (met, lab) in enumerate([("sens", "Sensitivity"), ("spec", "Specificity")]):

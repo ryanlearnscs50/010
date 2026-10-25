@@ -1,0 +1,235 @@
+\documentclass[11pt]{article}
+\usepackage[a4paper,margin=2.5cm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{textcomp}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{setspace}
+\usepackage{lineno}
+\usepackage[numbers,sort&compress]{natbib}
+\usepackage[hidelinks]{hyperref}
+\usepackage{caption}
+\captionsetup{font=small,labelfont=bf}
+\usepackage{float}
+\usepackage{rotating}
+
+\input{numbers.tex}
+
+\doublespacing
+\linenumbers
+
+\title{Machine-learning completion of sparse audiograms for hearing-loss triage: external validation and subgroup audit in \NTotal{} NHANES adults}
+\author{Ryan Yi Sheng Neo\\[2pt]
+\small Independent researcher, Singapore\\
+\small Correspondence: \href{mailto:realryanneo@gmail.com}{realryanneo@gmail.com}}
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+\noindent\textbf{Background:} Machine-learning models can estimate untested audiometric thresholds from a few measured ones. Whether this ``audiogram completion'' improves the decision a short hearing test supports, and whether its errors are equitable across groups, is unclear.
+
+\noindent\textbf{Methods:} Using National Health and Nutrition Examination Survey audiometry, we developed models in adults aged 20--69 years from 2011--2016 ($n$~=~\NDev{}). We tested them without refitting in adults aged 20--69 from 1999--2004 ($n$~=~\NExtA{}) and adults aged $\geq$70 from 2005--2018 ($n$~=~\NExtB{}). Inputs were measured 2 and 4~kHz thresholds (both ears), age and sex; targets were 0.5, 1, 3, 6 and 8~kHz thresholds. XGBoost and ridge regression were compared with simple rules. The primary endpoint was WHO 2021 hearing loss (better-ear 0.5--4~kHz average $\geq$20~dB~HL), with the completed audiogram compared against the measured 2/4~kHz average alone. We audited errors and classification by race/ethnicity, accounting for regression to the mean and severity.
+
+\noindent\textbf{Results:} XGBoost reduced per-participant mean absolute error from \MaeCopyDev{}~dB (nearest-frequency copy) to \MaeXgbDev{}~dB in development, \MaeXgbExtA{}~dB in the earlier cohort and \MaeXgbExtB{}~dB in older adults; ridge regression was almost identical. Completion added almost no discrimination for hearing loss (AUC \AucXgbTwentyDev{} vs \AucHfaTwentyDev{} for the measured average; sensitivity at 95\% specificity \MsSensXgbDev{} vs \MsSensHfaDev{}). Applying the WHO cut-off to completed audiograms lowered sensitivity to \SensXgbTwentyDev{} (measured average: \SensHfaTwentyDev{}). Group differences in error were small (spread \GMaeRangeDev{}~dB). The largest raw signed-error difference (Non-Hispanic Black) largely reflected regression to the mean, and lower sensitivity in older Non-Hispanic Black adults (odds ratio \OrRawBlackExtB{}) reflected milder hearing loss (adjusted odds ratio \OrCondBlackExtB{}, 95\% CI \OrCiCondBlackExtB). However, at the same prediction, Non-Hispanic Black participants' measured thresholds were 1.0--2.3~dB better than Non-Hispanic White participants'.
+
+\noindent\textbf{Conclusions:} Audiogram completion estimates untested thresholds better than simple rules and transfers across survey eras and to older adults, but does not improve hearing-loss triage beyond the measured thresholds; applying standard cut-offs to completed audiograms reduces sensitivity. Subgroup audits should account for regression to the mean and case mix before attributing disparities to a model.
+
+\medskip\noindent\textbf{Keywords:} audiometry; hearing loss; machine learning; screening; external validation; algorithmic fairness; calibration; NHANES
+\end{abstract}
+
+\section*{Background}
+
+Hearing loss affects about 1.5 billion people worldwide and is a major cause of years lived with disability~\cite{who2021,chadha2021,wilson2017}. Its prevalence rises steeply with age. In the United States it differs by sex and race/ethnicity, with lower prevalence among Non-Hispanic Black adults at most ages~\cite{agrawal2008,lin2011prev,lin2011older,goman2016,hoffman2017}. Pure-tone audiometry is the reference test, but a full air-conduction audiogram takes time, a calibrated transducer, a quiet environment and a trained tester. Short protocols that test only a few frequencies, including automated and smartphone-based tests, are widely used for screening and in settings with few audiologists~\cite{swanepoel2014,sandstrom2016,mahomed2013}.
+
+Machine learning has been applied to audiometry in two main ways. Active-learning methods choose which tones to present so that a full audiogram can be estimated from fewer trials~\cite{song2015,schlittenlacher2018,barbour2019}. Data-driven methods instead infer audiogram configuration from limited information~\cite{charih2020,wasmann2021}. Imputation studies have estimated missing thresholds from the measured ones. In 206 children's audiograms, neural-network and nearest-neighbour models outperformed linear interpolation (MAE about 5--8~dB)~\cite{pitathawatchai2022}. In cochlear implant candidates, multiple imputation recovered up to six of eleven frequencies with errors below 10~dB~\cite{pavelchek2023}. These studies addressed missing values in clinical records rather than a screening decision. The closest earlier work, by Ellis and Souza~\cite{ellis2021}, used eight NHANES cycles ($n=9{,}256$). They predicted each ear's audiogram class on an eight-category scale from the slope between 2 and 4~kHz, age, sex, military service and self-rated hearing. Their random forest reached an accuracy of about 0.55 (kappa about 0.35). To our knowledge, no study has asked whether an audiogram completed from a two-frequency screen improves the triage decision such a test is used for, validated completion in external population cohorts, or audited how its errors are distributed across population groups.
+
+Group audits matter because models trained on pooled data can fail unevenly across populations~\cite{obermeyer2019,seyyed2021,rajkomar2018}. Audits of continuous predictions can also mislead. Any prediction that is less variable than the truth over-predicts low values and under-predicts high ones (regression to the mean~\cite{barnett2005}). Groups whose hearing differs on average will therefore show different mean signed errors, even when the model treats them identically at the same hearing level. Similarly, a group whose cases cluster near a diagnostic cut-off will show lower sensitivity under any imperfect test. Fairness criteria based on error rates and on calibration within groups capture different properties and generally cannot all hold at once~\cite{kleinberg2017,chouldechova2017}. An informative audit therefore needs to report which criterion it examines.
+
+This study had three aims. First, to measure how accurately learned models complete an audiogram from measured 2 and 4~kHz thresholds, age and sex, compared with simple rules, in a development cohort and in two external cohorts: an earlier survey era and adults aged 70 or over, who have far more hearing loss. Second, to test whether completion improves classification of WHO-graded hearing loss compared with using the measured thresholds alone. Third, to audit errors and classification performance by race/ethnicity, separating group effects from regression to the mean and from differences in severity.
+
+\section*{Methods}
+
+\subsection*{Data source and cohorts}
+NHANES is a continuous cross-sectional survey of the US civilian non-institutionalised population run by the National Center for Health Statistics (NCHS). It includes a standardised examination in a mobile examination centre. In selected cycles and age groups, NHANES conducted pure-tone air-conduction audiometry at 0.5, 1, 2, 3, 4, 6 and 8~kHz in each ear, with 1~kHz tested twice~\cite{nhanes_aux_g,nhanes_aux_i}. From 1999 to 2016, NHANES documentation describes an Interacoustics AD226 audiometer with TDH-39 (1999--2010), TDH-49 (2011--2012) or TDH-49P (2015--2016) headphones, or EarTone 3A insert earphones. In 2017--2018 an Audiometric Research Tool (ART) system was used with TDH-49P headphones or EarTone 3A insert earphones. Its approximate output limit was 100~dB~HL at 0.5--6~kHz and 90~dB~HL at 8~kHz, although manual testing could exceed this~\cite{nhanes_aux_j}. Testing followed a modified Hughson--Westlake procedure in automated mode, without masking. Thresholds above the automated range were measured manually, up to 120~dB~HL (110~dB~HL at 8~kHz) in 1999--2016; observed values in 2017--2018 reached 110~dB~HL~\cite{nhanes_aux_g,nhanes_aux_i,nhanes_aux_j}.
+
+We downloaded the audiometry examination, audiometry questionnaire and demographic files for every cycle in which adults were tested and defined three cohorts by the age groups NHANES tested (Figure~1). The \emph{development cohort} comprised adults aged 20--69 in 2011--2012 and 2015--2016. \emph{External~A} comprised adults aged 20--69 in 1999--2000, 2001--2002 and 2003--2004, an earlier survey era with the same age range. \emph{External~B} comprised adults aged 70 or over in 2005--2006, 2009--2010 and 2017--2018, the cycles in which this age group was tested. External~B is a hearing-loss-enriched cohort, but it also differs in age from the development data. Adults aged 20--69 were not tested in 2005--2010 or 2017--2018. In 2007--2008 only young people were tested, and no audiometry examination file was released for 2013--2014. We included participants with all 14 thresholds available and recorded sex.
+
+\subsection*{Threshold coding and reference standard}
+NHANES codes 666 as no response at the maximum output level and 888 as a threshold that could not be obtained~\cite{nhanes_aux_g}. We set 888 to missing. We treated 666 as a censored value. Because the maximum output differed between audiometer systems, we replaced it with 5~dB above the highest valid level recorded at that frequency with the same system. For the AD226 (1999--2016) this was 125~dB~HL at 0.5--6~kHz and 115~dB~HL at 8~kHz. For the ART system (2017--2018) it was 110~dB~HL at 0.5, 1 and 6~kHz, 115~dB~HL at 2--4~kHz and 100~dB~HL at 8~kHz. We did not exclude any valid thresholds: the recorded range was $-10$ to 120~dB~HL (110~dB~HL at 8~kHz). The first 1~kHz measurement was used for modelling. The 1~kHz retest was used only to estimate test--retest variability.
+
+The reference standard was the WHO 2021 grading of hearing loss~\cite{who2021,humes2019}. It uses the better-ear four-frequency average (BE4FA) of the 0.5, 1, 2 and 4~kHz thresholds. Hearing loss was defined as BE4FA $\geq$20~dB~HL (primary) and moderate or worse hearing loss as BE4FA $\geq$35~dB~HL (secondary). For severity-stratified results we grouped participants as normal ($<$20), mild (20 to $<$35) and moderate or worse ($\geq$35~dB~HL).
+
+\subsection*{Intended use, predictors and targets}
+The intended use was a two-frequency screen in which calibrated thresholds are measured at 2 and 4~kHz in each ear, for example in occupational hearing conservation or a calibrated tele-audiometry check. The question was whether estimating the remaining thresholds supports the decision to refer for full diagnostic audiometry. Predictors were the four measured thresholds (2 and 4~kHz, both ears), age in years and sex. Targets were the ten untested thresholds (0.5, 1, 3, 6 and 8~kHz, both ears), predicted jointly. Race/ethnicity was not a predictor. We excluded the poverty-income ratio and occupational noise exposure from the primary model because they are often missing and occupational noise was not asked in comparable form in every cycle. In the development cycles the occupational-noise item (AUQ330 in 2011--2012, renamed AUQ331 in 2015--2016) asked whether the participant had ever had a job with exposure to loud noise ``for 4 or more hours a day, several days a week''; responses of ``never worked'', refused or don't know were treated as missing. We assessed both variables in a sensitivity analysis.
+
+\subsection*{Models}
+We compared four approaches.
+\begin{enumerate}
+\item \emph{Copy}, a nearest-measured-frequency rule. In each ear, 0.5 and 1~kHz were set to the measured 2~kHz threshold, 3~kHz to the mean of 2 and 4~kHz, and 6 and 8~kHz to the measured 4~kHz threshold.
+\item \emph{Age-sex norm}: the median threshold at each target in the training data, by age decade and sex. It ignores the measured thresholds.
+\item Ridge regression with standardised predictors, with the penalty chosen by internal cross-validation.
+\item XGBoost~\cite{chen2016} (\texttt{xgboost} 3.4.1), a multi-output gradient-boosted tree model with squared-error loss, learning rate 0.05, subsampling 0.8 and minimum child weight 5.
+\end{enumerate}
+The XGBoost tree depth (2, 3 or 4) and number of trees (150, 300 or 600) were tuned by 3-fold cross-validation nested within each training set. Depth \XgbDepth{} with \XgbTrees{} trees was selected in every outer fold and in the final model.
+
+\subsection*{Validation}
+In the development cohort, all performance measures were computed from out-of-fold predictions from 5-fold cross-validation, with tuning repeated inside each training fold. The models were then refitted once to the whole development cohort and applied unchanged to External~A and External~B. No recalibration or threshold adjustment was done in the external cohorts.
+
+\subsection*{Outcomes}
+\emph{Primary: hearing-loss classification.} For each participant we formed a completed BE4FA from the measured 2 and 4~kHz thresholds and the predicted 0.5 and 1~kHz thresholds. Because 2 and 4~kHz are measured, completion affects only half of the four-frequency average. The comparator was the better-ear mean of the measured 2 and 4~kHz thresholds, which uses no prediction. We report sensitivity, specificity, positive and negative predictive values at the WHO cut-off, and the area under the ROC curve (AUC). Paired bootstrap confidence intervals (1,000 resamples) were computed for AUC differences. Because scores at the same nominal cut-off operate at different specificities, we also compared sensitivity at matched specificity. For each score, the cut-off giving 95\% specificity in the development cohort was applied unchanged to the external cohorts.
+
+\emph{Secondary: threshold accuracy.} We report the mean absolute error (MAE) at each target frequency and the per-participant MAE (the mean of the ten absolute errors), overall and by WHO severity. We also report the proportion of predictions within $\pm$10~dB and the MAE of the completed BE4FA. As a reference for measurement variability, we report the mean absolute difference between the two 1~kHz measurements.
+
+\subsection*{Subgroup audit}
+Race/ethnicity was self-reported. From 2011 onward NHANES identifies Mexican American, Other Hispanic, Non-Hispanic (NH) White, NH Black, NH Asian and Other/Multiracial participants. Earlier cycles do not separate NH Asian participants, who are included in Other/Multiracial. All groups with at least 30 participants in a cohort are reported, including Other/Multiracial.
+
+For threshold predictions (XGBoost), we computed per-participant MAE and mean signed error (predicted minus true) by group, with bootstrap CIs, and the difference in MAE from NH White participants. To separate group effects from regression to the mean, we fitted three linear models to long-format data (one row per participant and target), each with target fixed effects and standard errors clustered by participant:
+\begin{enumerate}
+\item[(a)] signed error on group;
+\item[(b)] model (a) plus a cubic B-spline (4 df) of the true threshold, interacted with target, so that group coefficients compare participants at the same true hearing level;
+\item[(c)] true threshold on group and a spline of the predicted threshold, interacted with target. This is a test of calibration within groups~\cite{kleinberg2017,vancalster2019}: a non-zero group coefficient means that, at the same prediction, the group's measured thresholds differ systematically.
+\end{enumerate}
+For classification, we computed sensitivity and specificity by group with bootstrap CIs, and the difference in sensitivity from NH White participants. Among participants with hearing loss, we fitted logistic models of detection on group, first unadjusted and then adjusted for a spline of the true BE4FA. The adjusted model tests whether group differences in sensitivity persist among people with the same severity.
+
+\subsection*{Survey design}
+Models were trained and evaluated without survey weights, and the sample is not interpreted as nationally representative. As a sensitivity analysis in the development cohort, we recomputed prevalence, per-participant MAE and group-specific sensitivity and specificity using examination weights (WTMEC2YR divided by 2 for the two pooled cycles)~\cite{nhanes_weights}.
+
+\subsection*{Sensitivity analyses and model explanation}
+Within the development cohort we repeated cross-validation for the following variants:
+\begin{itemize}
+\item thresholds-only inputs;
+\item adding the poverty-income ratio and occupational noise (complete cases), compared with the primary features in the same participants;
+\item excluding participants who reported a cold, sinus problem or earache in the 24 hours before testing;
+\item excluding participants with any no-response code;
+\item adding race/ethnicity as a predictor.
+\end{itemize}
+Feature attributions for the final XGBoost model were computed with TreeSHAP~\cite{lundberg2020}, using \texttt{xgboost}'s exact tree contributions.
+
+\subsection*{Software, reporting and data handling}
+Analyses used Python 3.13 with pandas 2.3, scikit-learn 1.9, xgboost 3.4.1 and statsmodels 0.15, with a fixed random seed. All tables and figures, and the numerical results quoted in the text, are generated by the analysis scripts. Reporting follows TRIPOD+AI~\cite{collins2024}. There was no formal sample-size calculation; all eligible participants in the available cycles were used. The study protocol was not registered or published in advance, and patients and the public were not involved in the design or conduct of the study. The generative AI model Claude (Anthropic) was used to help write analysis code and draft and edit the manuscript text. The author checked all code, outputs and references and takes full responsibility for the content.
+
+\section*{Results}
+
+\subsection*{Participants}
+The three cohorts included \NDev{}, \NExtA{} and \NExtB{} participants (Figure~1, Table~\ref{tab:desc}). Mean age was \AgeDev{} (SD \AgeSdDev{}), \AgeExtA{} (\AgeSdExtA{}) and \AgeExtB{} (\AgeSdExtB{}) years. WHO hearing loss (BE4FA $\geq$20~dB~HL) was present in \PrevTwentyDev{}\%, \PrevTwentyExtA{}\% and \PrevTwentyExtB{}\% of participants, and moderate or worse hearing loss in \PrevThirtyFiveDev{}\% (\NThirtyFiveDev{} participants), \PrevThirtyFiveExtA{}\% (\NThirtyFiveExtA{}) and \PrevThirtyFiveExtB{}\% (\NThirtyFiveExtB{}). The survey-weighted prevalence in the development cohort was \PrevTwentyDevW{}\% and \PrevThirtyFiveDevW{}\%. At least one no-response code was present in \NoRespDev{}\% of development and \NoRespExtB{}\% of External~B participants. NH Black participants had the lowest mean BE4FA in both external cohorts and, with NH Asian participants, among the lowest in development.
+
+\subsection*{Threshold accuracy}
+Both learned models had lower MAE than both baselines in all cohorts (Table~\ref{tab:mae}, Figure~2), although the proportion of predictions within $\pm$10~dB differed little from copy in the two younger cohorts. In the development cohort, the per-participant MAE was \MaeXgbDev{}~dB (95\% CI \MaeCiXgbDev{}) for XGBoost, \MaeRidgeDev{}~dB for ridge, \MaeCopyDev{}~dB for copy and \MaeNormDev{}~dB for the age-sex norm. Performance transferred to the earlier survey era (XGBoost \MaeXgbExtA{}~dB; copy \MaeCopyExtA{}~dB) and to adults aged 70 or over (XGBoost \MaeXgbExtB{}~dB; copy \MaeCopyExtB{}~dB; age-sex norm \MaeNormExtB{}~dB). XGBoost was better than ridge by only 0.1--0.3~dB. The gains over copy were largest at the frequencies furthest from the measured ones. In External~B, MAE at 0.5~kHz fell from \MaeCopyExtBHalf{} to \MaeXgbExtBHalf{}~dB and at 8~kHz from \MaeCopyExtBEight{} to \MaeXgbExtBEight{}~dB. At 3~kHz, which lies between the measured frequencies, all threshold-based methods were similar. Across all predicted thresholds, \WithinTenDev{}\% (development) and \WithinTenExtB{}\% (External~B) of XGBoost predictions were within $\pm$10~dB of the measured value.
+
+These errors are large compared with measurement variability. The mean absolute difference between the two 1~kHz measurements was \RetestDev{}~dB, whereas XGBoost's MAE at 1~kHz was \MaeXgbDevOne{}~dB. NHANES did not accept audiograms whose two 1~kHz measurements differed by more than 10~dB~\cite{nhanes_aux_g}, so this within-session difference understates true test--retest variability. Error rose with severity (Figure~3): in the development cohort XGBoost MAE was \MaeXgbDevNorm{}, \MaeXgbDevMild{} and \MaeXgbDevMod{}~dB in normal, mild and moderate-or-worse hearing. The age-sex norm failed badly in moderate or worse hearing loss (\MaeNormDevMod{}~dB). The MAE of the completed BE4FA was \FourFaMaeXgbDev{}~dB with XGBoost versus \FourFaMaeCopyDev{}~dB with copy (External~B: \FourFaMaeXgbExtB{} vs \FourFaMaeCopyExtB{}~dB).
+
+\subsection*{Hearing-loss classification}
+All four scores discriminated hearing loss almost equally well (Table~\ref{tab:triage}). In the development cohort the AUC for WHO hearing loss was \AucXgbTwentyDev{} for the XGBoost-completed BE4FA, \AucRidgeTwentyDev{} for ridge, \AucCopyTwentyDev{} for copy and \AucHfaTwentyDev{} for the measured 2/4~kHz average. Completion improved the AUC over the measured average by \AucDiffHfaTwentyDev{} (95\% CI \AucDiffCiHfaTwentyDev{}). This was statistically detectable but very small, and was similar in External~A (\AucDiffHfaTwentyExtA{}) and External~B (\AucDiffHfaTwentyExtB{}).
+
+At matched specificity, the scores were essentially interchangeable. With cut-offs fixed in development at 95\% specificity, sensitivity was \MsSensXgbDev{} (XGBoost-completed), \MsSensCopyDev{} (copy-completed) and \MsSensHfaDev{} (measured average) in development, and \MsSensXgbExtA{}, \MsSensCopyExtA{} and \MsSensHfaExtA{} in External~A.
+
+At the nominal WHO cut-off, however, the scores operated very differently. Predicted thresholds are pulled toward the mean, so the completed BE4FA under-called hearing loss near the cut-off. Sensitivity was \SensXgbTwentyDev{} (95\% CI \SensCiXgbTwentyDev{}) with specificity \SpecXgbTwentyDev{}. The measured 2/4~kHz average, which is usually worse than the low-frequency thresholds, had sensitivity \SensHfaTwentyDev{} and specificity \SpecHfaTwentyDev{}. In External~B, where most participants had hearing loss, the XGBoost-completed BE4FA had sensitivity \SensXgbTwentyExtB{} and specificity \SpecXgbTwentyExtB{}, against \SensHfaTwentyExtB{} and \SpecHfaTwentyExtB{} for the measured average. For moderate or worse hearing loss, sensitivity of the completed BE4FA was \SensXgbThirtyFiveDev{} in development and \SensXgbThirtyFiveExtB{} in External~B.
+
+\subsection*{Subgroup audit}
+\emph{Threshold error.} Differences in per-participant MAE between race/ethnicity groups were small (Table~\ref{tab:audit}). The range was \GMaeMinDev{}--\GMaeMaxDev{}~dB in development (spread \GMaeRangeDev{}~dB), \GMaeRangeExtA{}~dB in External~A and \GMaeRangeExtB{}~dB in External~B. In the two younger cohorts, NH White participants, whose hearing was worse on average, had among the highest MAEs.
+
+Mean signed error differed more. Without adjustment (model a), predictions for NH Black participants were \EffRawBlackDev{}~dB (95\% CI \EffCiRawBlackDev{}) higher relative to the truth than for NH White participants in development, \EffRawBlackExtA{}~dB in External~A and \EffRawBlackExtB{}~dB in External~B. Comparing participants at the same true hearing level (model b) shrank this difference to \EffCondBlackDev{}~dB in development and removed it in External~A (\EffCondBlackExtA{}~dB, 95\% CI \EffCiCondBlackExtA{}). In External~B it reversed sign (\EffCondBlackExtB{}~dB, 95\% CI \EffCiCondBlackExtB{}). This pattern did not hold for every group: in development, conditioning on true level did not shrink the differences for Mexican American (\EffRawMexAmDev{} to \EffCondMexAmDev{}~dB) or Other Hispanic participants (\EffRawOthHispDev{} to \EffCondOthHispDev{}~dB), although neither offset was seen in External~A (Table~\ref{tab:audit}). Figure~5 (top row) shows the reason: in every group, signed error fell steeply with true threshold along a shared curve. Groups with better average hearing therefore have more positive mean error.
+
+Calibration within groups (model c) showed one consistent offset. At the same predicted threshold, NH Black participants' measured thresholds were lower (better) than NH White participants'. The group coefficient was \EffCalBlackDev{}~dB (95\% CI \EffCiCalBlackDev{}) in development, \EffCalBlackExtA{}~dB (\EffCiCalBlackExtA{}) in External~A and \EffCalBlackExtB{}~dB (\EffCiCalBlackExtB{}) in External~B. The other groups showed smaller offsets in the same direction in development, but these were not consistent in the external cohorts (Table~\ref{tab:audit}). These offsets are less than half the 5~dB audiometric step size, but they are consistent in direction across cohorts. Because the model is close to calibrated overall, the model (c) coefficients are close to the negative of the raw signed-error differences from model (a). Models (b) and (c) therefore answer different questions (error at the same true level versus calibration at the same prediction); neither supersedes the other.
+
+\emph{Classification.} At the WHO cut-off, sensitivity of the XGBoost-completed BE4FA ranged from \SensGrpMinDev{} to \SensGrpMaxDev{} across groups in development, and every difference from NH White participants had a 95\% CI that included zero (Figure~4). In External~B, sensitivity was lower for NH Black (\SensXgbBlackExtB{} vs \SensXgbWhiteExtB{}; difference \SensDiffBlackExtB{}, 95\% CI \SensDiffCiBlackExtB{}) and Other Hispanic participants (difference \SensDiffOthHispExtB{}, 95\% CI \SensDiffCiOthHispExtB{}). Among participants with hearing loss, these groups had milder hearing loss (mean BE4FA \PosFourFaBlackExtB{} and \PosFourFaOthHispExtB{}~dB~HL, against \PosFourFaWhiteExtB{}~dB~HL for NH White participants). After adjustment for true BE4FA, the odds ratios for detection were \OrCondBlackExtB{} (95\% CI \OrCiCondBlackExtB{}) for NH Black and \OrCondOthHispExtB{} (\OrCiCondOthHispExtB{}) for Other Hispanic participants, compared with unadjusted odds ratios of \OrRawBlackExtB{} and \OrRawOthHispExtB{}. Of 14 adjusted comparisons across cohorts, one had a 95\% CI excluding 1: Other Hispanic participants in External~A (odds ratio \OrCondOthHispExtA{}, 95\% CI \OrCiCondOthHispExtA{}; 49 participants with hearing loss).
+
+\subsection*{Sensitivity analyses and feature attributions}
+Results were robust (Additional file~1: Table~S1). Dropping age and sex increased the MAE from \SaPrimaryMae{} to \SaThrOnlyMae{}~dB. In the same participants, adding the poverty-income ratio and occupational noise made no difference (\SaPirNoiseMae{} vs \SaSameCcMae{}~dB). Occupational noise prevalence was \NoiseDevA{}\% in 2011--2012 and \NoiseDevB{}\% in 2015--2016. Excluding participants with recent ear symptoms (\SaExclIllMae{}~dB) or with no-response codes (\SaExclNrMae{}~dB) also made no difference, as did adding race/ethnicity as a predictor (\SaRaceMae{}~dB; sensitivity \SaRaceSens{} vs \SaPrimarySens{}). With survey weights, the development MAE was \MaeXgbDevW{}~dB, and group-specific sensitivity ranged from \WSensMin{} to \WSensMax{}. Mean absolute TreeSHAP attributions, averaged over targets, were largest for the 4~kHz thresholds (left \ShapLFour{}, right \ShapRFour{}~dB), followed by the 2~kHz thresholds (\ShapLTwo{}, \ShapRTwo{}~dB), age (\ShapAge{}~dB) and sex (\ShapSex{}~dB) (Additional file~1: Figure~S1).
+
+\section*{Discussion}
+
+\subsection*{Principal findings}
+In \NTotal{} adults from three NHANES cohorts, learned models completed an audiogram from measured 2 and 4~kHz thresholds, age and sex. They were more accurate than simple rules, and the accuracy held in an earlier survey era and in older adults with much more hearing loss. A regularised linear model did nearly as well as gradient-boosted trees, so the structure being learned is largely linear. Completion did not, however, improve the decision a two-frequency screen is used for. The measured 2/4~kHz average discriminated WHO-graded hearing loss almost as well as the completed audiogram, and at matched specificity the two were interchangeable. Applying the WHO cut-off to completed thresholds lowered sensitivity, because predictions are pulled toward the population mean. Differences in error across race/ethnicity groups were small. The largest apparent disparities, for NH Black participants, came from regression to the mean or from differences in severity among people with hearing loss. Smaller residual offsets (under 1~dB) for Mexican American and Other Hispanic participants in development were not seen in External~A. A modest, consistent calibration offset for NH Black participants remained.
+
+\subsection*{Interpretation}
+The triage result follows from how the average is built. The WHO average includes 2 and 4~kHz, which are measured. The predicted 0.5 and 1~kHz thresholds are largely functions of those same measurements. A completed average therefore adds little information beyond a weighted combination of the measured thresholds, and its benefit lies mostly in where it places the cut-off. This has a practical consequence. Reconstructed thresholds look like a real audiogram and invite use of the standard cut-off, but at that cut-off XGBoost missed about one in five people with hearing loss in the development cohort. If completion is used for screening, the referral threshold should be chosen for the intended sensitivity and validated, not inherited from the diagnostic definition. For referral decisions alone, the measured thresholds with a suitably chosen cut-off are simpler and perform as well.
+
+Completion may still be useful where the configuration matters, for example to describe likely low- and high-frequency hearing when only a short test is feasible. In the younger cohorts the MAE was about 5--6~dB at 0.5--3~kHz and larger at 6--8~kHz, and it rose with severity. This is several times the within-session test--retest difference (itself limited by the NHANES acceptance rule) and comparable to the 5~dB step size. Completed audiograms are therefore not a substitute for measured ones where individual thresholds drive decisions, such as fitting a hearing aid. Our models are consistent with Ellis and Souza's finding that sparse inputs carry substantial but incomplete information about audiogram shape~\cite{ellis2021}. Their outcome (categorical audiogram class) and inputs (slope and questionnaire items) differ from ours, so the results are not directly comparable.
+
+\subsection*{What the subgroup audit shows}
+Mean signed error by group, a common audit metric, is misleading here. Every group's errors follow the same steep relationship with true hearing level (Figure~5), and NH Black participants had among the best average hearing in every cohort, consistent with earlier NHANES reports~\cite{agrawal2008,lin2011older}. Unadjusted signed error therefore differs by group even if the model treats everyone with the same hearing identically. Likewise, lower sensitivity among NH Black and Other Hispanic adults aged 70 or over reflects milder hearing loss among those affected, which places more cases near the cut-off. The adjusted odds ratios were close to 1, with wide intervals.
+
+Calibration within groups gave a more specific answer. At the same prediction, NH Black participants' measured thresholds were 1.0--2.3~dB better than predicted relative to NH White participants, in all three cohorts. A race-blind model fitted to pooled data is expected to show this pattern when a group's thresholds differ systematically at the same input values. More generally, calibration within groups and equal error rates cannot both hold when groups differ in their outcome distributions~\cite{kleinberg2017,chouldechova2017}. The offset is small next to the overall error, and its effect on classification was at most small. In development, specificity at the WHO cut-off was \SpecXgbBlackDev{} for NH Black and \SpecXgbWhiteDev{} for NH White participants, consistent with slight over-prediction. Adding race/ethnicity as a predictor did not change overall accuracy, and we do not recommend it: race is a social category, and building it into clinical algorithms has well-known harms~\cite{rajkomar2018}. We report the offset so that users can judge its relevance to their setting. Fairness audits of continuous health predictions should state which criterion they test and adjust for the outcome distribution before attributing disparities to the model~\cite{barnett2005,vancalster2019}.
+
+\subsection*{Strengths and limitations}
+Strengths include the following:
+\begin{itemize}
+\item external validation in an earlier survey era and in an older, hearing-loss-enriched cohort, without refitting;
+\item comparison with non-learned baselines;
+\item an endpoint tied to an intended use and a recognised grading standard;
+\item explicit handling of no-response codes, with no exclusion of valid high thresholds;
+\item fully scripted analyses with no hand-transcribed results.
+\end{itemize}
+
+The study also has limitations:
+\begin{itemize}
+\item All cohorts come from one survey programme with a standardised protocol and similar equipment. The external cohorts test transfer across time and age, not across clinics, devices or countries, and performance with consumer or uncalibrated equipment is unknown.
+\item External~B differs from the development data in age. Its higher error mixes the effects of more severe hearing loss and of extrapolating beyond the training age range.
+\item Group sizes were small for some race/ethnicity groups in the external cohorts, and NH Asian participants could not be separated before 2011. Wide intervals in these groups should not be read as evidence of equal performance.
+\item Testing used air conduction without masking, and conductive pathology was not excluded in the primary analysis (excluding recent ear symptoms did not change results).
+\item Models and evaluation were unweighted. Weighted results were similar, but we make no claim about national representativeness.
+\item The intended use assumes calibrated thresholds at 2 and 4~kHz. Two-frequency testing still requires calibrated equipment, a quiet environment and a threshold procedure. We did not assess time, cost or workflow.
+\end{itemize}
+
+\section*{Conclusions}
+From measured 2 and 4~kHz thresholds, age and sex, learned models estimate untested thresholds more accurately than simple rules, and they transfer across survey eras and to older adults. For deciding who has hearing loss, completion adds nothing material to the measured thresholds, and applying standard cut-offs to completed audiograms reduces sensitivity. The largest apparent group disparities reflected regression to the mean and differences in severity; a small calibration offset for NH Black participants persisted. Subgroup audits of audiometric prediction models should be tied to an intended decision and should account for these effects before reporting bias.
+
+\section*{Abbreviations}
+AUC: area under the receiver operating characteristic curve; BE4FA: better-ear four-frequency average; CI: confidence interval; HL: hearing level; MAE: mean absolute error; NCHS: National Center for Health Statistics; NH: non-Hispanic; NHANES: National Health and Nutrition Examination Survey; PPV/NPV: positive/negative predictive value; SHAP: Shapley additive explanations; WHO: World Health Organization.
+
+\section*{Declarations}
+\subsection*{Ethics approval and consent to participate}
+NHANES protocols were approved by the NCHS Research Ethics Review Board, and all participants gave written informed consent. This study is a secondary analysis of de-identified, publicly available NHANES data. It involved no contact with participants and no access to identifiable information, so no further ethics approval was required.
+
+\subsection*{Consent for publication}
+Not applicable.
+
+\subsection*{Availability of data and materials}
+The NHANES data are publicly available from the National Center for Health Statistics at \url{https://wwwn.cdc.gov/nchs/nhanes/}. The analysis code is available at \url{https://github.com/ryanlearnscs50/010}. It downloads the data and regenerates every table, figure and number in this article, together with per-participant predictions.
+
+\subsection*{Competing interests}
+The author declares no competing interests.
+
+\subsection*{Funding}
+This research received no funding.
+
+\subsection*{Authors' contributions}
+RYSN conceived and designed the study, performed the analyses, interpreted the results and wrote the manuscript. The author read and approved the final manuscript.
+
+\subsection*{Acknowledgements}
+The author thanks the National Center for Health Statistics and the NHANES participants. Use of generative AI is described in the Methods.
+
+\bibliographystyle{vancouver}
+\bibliography{references}
+
+\clearpage
+\section*{Figure legends}
+\paragraph{Figure 1.} Cohort selection. Audiometry records are all participants in each cycle's audiometry file; the age-range step keeps the ages NHANES tested in that cohort.
+
+\paragraph{Figure 2.} Mean absolute error at each predicted frequency, by model and cohort (both ears pooled). Ridge and XGBoost lines overlap. The dotted line is the mean absolute difference between the two 1~kHz measurements in the same session.
+
+\paragraph{Figure 3.} Per-participant mean absolute error by WHO 2021 hearing-loss grade. Error bars are bootstrap 95\% CIs.
+
+\paragraph{Figure 4.} Sensitivity and specificity for WHO hearing loss by race/ethnicity and cohort. Each score is applied at the WHO cut-off (BE4FA $\geq$20~dB~HL). Error bars are bootstrap 95\% CIs (1,000 resamples). External~A has no separate NH Asian category.
+
+\paragraph{Figure 5.} Regression to the mean and calibration within race/ethnicity groups. Top: mean signed error (XGBoost, predicted $-$ true) against the true threshold, in 10~dB bins, by group. All groups follow the same regression-to-the-mean curve. Bottom: mean true threshold against the predicted threshold (calibration); the dashed line is perfect calibration. Bins with fewer than 20 predictions are not shown.
+
+\clearpage
+\section*{Tables}
+\input{tables/table1_descriptives.tex}
+\input{tables/table2_mae.tex}
+\input{tables/table3_triage.tex}
+\input{tables/table4_audit.tex}
+
+\clearpage
+
+\section*{Additional files}
+\paragraph{Additional file 1} (PDF). Table S1: sensitivity analyses. Figure S1: TreeSHAP feature attributions.
+\end{document}

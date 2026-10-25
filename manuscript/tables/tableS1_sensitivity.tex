@@ -1,0 +1,21 @@
+\begin{table}[p]
+\centering
+\caption{Sensitivity analyses in the development cohort (XGBoost, 5-fold cross-validation, primary hyperparameters).}
+\label{tab:sens}
+\scriptsize
+\begin{tabular}{p{6cm} rrrrrr}
+\toprule
+Analysis & $n$ & MAE & Range of group MAE & Sens. & Spec. & AUC \\
+\midrule
+Primary model (2/4 kHz both ears, age, sex) & 8,114 & 6.90 & 6.44--7.10 & 0.81 & 0.98 & 0.985 \\
+Thresholds only (no age or sex) & 8,114 & 7.08 & 6.60--7.31 & 0.82 & 0.98 & 0.985 \\
+Primary features, participants with PIR and noise data & 7,377 & 6.89 & 6.44--7.09 & 0.81 & 0.98 & 0.985 \\
+Adding poverty-income ratio and occupational noise & 7,377 & 6.89 & 6.42--7.08 & 0.81 & 0.98 & 0.985 \\
+Excluding cold/sinus/earache in past 24 h & 7,185 & 6.86 & 6.43--7.07 & 0.81 & 0.98 & 0.985 \\
+Excluding participants with any no-response code & 8,081 & 6.87 & 6.46--7.07 & 0.81 & 0.98 & 0.985 \\
+Adding race/ethnicity as a feature & 8,114 & 6.88 & 6.46--7.10 & 0.81 & 0.98 & 0.985 \\
+\bottomrule
+\end{tabular}
+\par\smallskip\raggedright
+Sensitivity, specificity and AUC refer to WHO hearing loss (BE4FA $\geq$20~dB~HL) using the completed BE4FA at the WHO cut-off. Occupational noise: 2011--2012 item AUQ330 and 2015--2016 item AUQ331 (same wording in both cycles: job exposure to loud noise ``for 4 or more hours a day, several days a week''; ``never worked'' treated as missing).
+\end{table}

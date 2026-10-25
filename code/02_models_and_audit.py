@@ -397,7 +397,9 @@ for c, d in data.items():
                          pir_mean=s.pir.mean(), pir_missing_pct=100 * s.pir.isna().mean()))
 pd.DataFrame(desc).to_csv(OUT / "descriptives.csv", index=False)
 
-RES["versions"] = {"xgboost": xgb.__version__, "pandas": pd.__version__, "numpy": np.__version__}
+import platform, sklearn, statsmodels
+RES["versions"] = {"python": platform.python_version(), "xgboost": xgb.__version__, "pandas": pd.__version__,
+                   "numpy": np.__version__, "scikit-learn": sklearn.__version__, "statsmodels": statsmodels.__version__}
 RES["runtime_s"] = time.time() - t0
 json.dump(RES, open(OUT / "results.json", "w"), indent=2, default=float)
 print("ALL DONE", f"{time.time() - t0:.0f}s")

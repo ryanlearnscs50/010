@@ -1,0 +1,38 @@
+\begin{sidewaystable}
+\centering
+\caption{Subgroup audit of XGBoost threshold predictions (reference group: NH White).}
+\label{tab:audit}
+\scriptsize
+\setlength{\tabcolsep}{3pt}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{l rr ccc}
+\toprule
+ & & & \multicolumn{3}{c}{Group coefficient, dB (95\% CI)} \\
+\cmidrule(lr){4-6}
+Group ($n$) & MAE & Mean signed error & (a) Signed error, raw & (b) Signed error, same true level & (c) Calibration, same prediction \\
+\midrule
+\multicolumn{6}{l}{\textit{Development}} \\
+\quad NH White (2,616) & 7.10 & -0.58 & ref. & ref. & ref. \\
+\quad NH Black (2,005) & 6.81 & +0.66 & +1.24 (+0.96, +1.53) & +0.52 (+0.24, +0.80) & -1.25 (-1.54, -0.97) \\
+\quad NH Asian (1,071) & 6.44 & -0.18 & +0.41 (+0.08, +0.73) & -0.41 (-0.74, -0.08) & -0.41 (-0.74, -0.08) \\
+\quad Mexican American (1,180) & 6.95 & +0.25 & +0.83 (+0.50, +1.17) & +0.87 (+0.52, +1.22) & -0.84 (-1.17, -0.50) \\
+\quad Other Hispanic (963) & 6.97 & +0.01 & +0.59 (+0.22, +0.96) & +0.81 (+0.43, +1.18) & -0.59 (-0.96, -0.22) \\
+\quad Other/Multiracial (279) & 6.88 & +0.20 & +0.78 (+0.18, +1.39) & -0.31 (-0.91, +0.30) & -0.78 (-1.39, -0.17) \\
+\multicolumn{6}{l}{\textit{External A}} \\
+\quad NH White (2,500) & 7.42 & +0.37 & ref. & ref. & ref. \\
+\quad NH Black (1,064) & 7.06 & +1.31 & +0.94 (+0.59, +1.29) & -0.04 (-0.38, +0.31) & -0.95 (-1.30, -0.60) \\
+\quad Mexican American (1,243) & 7.26 & +0.46 & +0.09 (-0.26, +0.44) & +0.01 (-0.35, +0.37) & -0.09 (-0.44, +0.26) \\
+\quad Other Hispanic (272) & 7.46 & +0.12 & -0.24 (-0.94, +0.46) & -0.47 (-1.14, +0.20) & +0.24 (-0.46, +0.94) \\
+\quad Other/Multiracial (215) & 7.15 & +0.14 & -0.23 (-0.91, +0.46) & -0.53 (-1.20, +0.13) & +0.21 (-0.48, +0.90) \\
+\multicolumn{6}{l}{\textit{External B}} \\
+\quad NH White (1,656) & 9.21 & -0.95 & ref. & ref. & ref. \\
+\quad NH Black (372) & 9.03 & +0.88 & +1.84 (+1.15, +2.53) & -1.72 (-2.39, -1.05) & -2.33 (-3.04, -1.62) \\
+\quad NH Asian (67) & 8.28 & +0.02 & +0.98 (-0.32, +2.28) & -1.05 (-2.38, +0.28) & -1.21 (-2.57, +0.15) \\
+\quad Mexican American (209) & 9.17 & -0.45 & +0.50 (-0.43, +1.43) & -0.37 (-1.33, +0.59) & -0.54 (-1.46, +0.39) \\
+\quad Other Hispanic (89) & 9.46 & +0.18 & +1.13 (-0.19, +2.45) & -1.72 (-2.96, -0.48) & -1.59 (-2.94, -0.24) \\
+\quad Other/Multiracial (82) & 9.38 & -1.64 & -0.69 (-2.08, +0.71) & -1.45 (-3.03, +0.13) & +0.58 (-0.78, +1.94) \\
+\bottomrule
+\end{tabular}}
+\par\smallskip\raggedright
+MAE and mean signed error are per-participant means (dB). Signed error = predicted $-$ true; a positive value means hearing is predicted to be worse than measured. Models (a)--(c) are linear regressions on long-format data (one row per participant and target) with target fixed effects and cluster-robust standard errors by participant. (b) adds a cubic B-spline (4 df) in the true threshold, interacted with target. (c) regresses the true threshold on a spline of the predicted threshold (calibration within groups); a negative coefficient means that, at the same prediction, the group's measured thresholds are better than predicted. Groups with fewer than 30 participants in a cohort are omitted.
+\end{sidewaystable}
