@@ -1,18 +1,18 @@
 # Sparse-input audiogram completion: accuracy, triage performance and subgroup audit (NHANES)
 
-This repository holds the code and outputs behind the manuscript "Machine-learning completion of sparse audiograms for hearing-loss triage: external validation and subgroup audit in 15,883 NHANES adults". All analyses were rebuilt from scratch; the earlier notebook analysis is kept for reference in `archive/` and is superseded.
+This folder holds the code and outputs behind the manuscript in `manuscript/`. It replaces the analysis in `4_code/hearingproject_final-3.ipynb`, which was rejected by Scientific Reports. All analyses were rebuilt from scratch.
 
 ## How to reproduce
 
 ```bash
 pip install pandas numpy scipy scikit-learn xgboost statsmodels matplotlib requests
-python -I code/00_download.py         # downloads 30 NHANES .xpt files into data_raw/ (about 75 MB)
+python -I code/00_download.py         # downloads 24 NHANES .xpt files into data_raw/ (about 70 MB)
 python -I code/01_build_cohorts.py    # writes data_derived/cohorts.csv and cohort_flow.csv
 python -I code/02_models_and_audit.py # writes outputs/*.csv and outputs/results.json (about 15-25 min on a laptop CPU)
 python -I code/02b_triage_extras.py   # AUC differences, matched specificity, group detection models
 python -I code/03_figures.py          # writes figures/*.png and figures/*.pdf
 python -I code/04_numbers_for_paper.py # writes manuscript/numbers.tex and manuscript/tables/*.tex
-# code/05_make_submission_version.py formats the journal version and needs the manuscript source, which is not in this repository
+python -I code/05_make_submission_version.py # journal version (figures as separate files)
 ```
 
 Fixed seed: 2026. Package versions used are recorded in `outputs/results.json` under `versions`.
@@ -25,7 +25,7 @@ Fixed seed: 2026. Package versions used are recorded in `outputs/results.json` u
 | External A | 1999–2000, 2001–2002, 2003–2004 | 20–69 | Earlier-era external test |
 | External B | 2005–2006, 2009–2010, 2017–2018 | 70+ | Older, hearing-loss-enriched external test |
 
-NHANES tested adults aged 20–69 only in the cycles listed under Development and External A. Adults aged 70+ were tested in 2005–06, 2009–10 and 2017–18. 2013–14 tested young people only.
+NHANES tested adults aged 20–69 only in the cycles listed under Development and External A. Adults aged 70+ were tested in 2005–06, 2009–10 and 2017–18. 2007–08 tested young people only, and no 2013–14 audiometry file was released.
 
 ## Key definitions
 

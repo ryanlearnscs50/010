@@ -68,6 +68,10 @@ M["NoiseDevA"] = f1(100 * pd.read_csv(ROOT / "data_derived" / "cohorts.csv").que
 M["NoiseDevB"] = f1(100 * pd.read_csv(ROOT / "data_derived" / "cohorts.csv").query("cycle=='2015-2016'").occ_noise.mean())
 M["PrevTwentyDevW"] = pct(res["survey_weighted_dev"]["prev_who20_weighted"])
 M["PrevThirtyFiveDevW"] = pct(res["survey_weighted_dev"]["prev_who35_weighted"])
+# mean BE4FA among participants with WHO hearing loss (>=20 dB HL), by cohort and group
+_coh = pd.read_csv(ROOT / "data_derived" / "cohorts.csv")
+for (c, g), v in _coh[_coh.be4fa >= 20].groupby(["cohort", "race"]).be4fa.mean().items():
+    M[f"PosFourFa{GKEY[g]}{COH[c]}"] = f1(v)
 
 # ---- accuracy
 for c, k in COH.items():
@@ -219,7 +223,7 @@ for c, lab in [("dev", "Development"), ("ext_a", "External A"), ("ext_b", "Exter
                     + f" & {s.mae:.2f} & {100 * f.within10.mean():.1f}" + r" \\")
 t2 = r"""\begin{table}[p]
 \centering
-\caption{Mean absolute error (dB) at each predicted frequency (both ears pooled), overall per-participant MAE, and percentage of predicted thresholds within $\pm$10~dB.}
+\caption{Threshold prediction error by frequency, cohort and model.}
 \label{tab:mae}
 \small
 \begin{tabular}{l rrrrr rr}
@@ -230,7 +234,7 @@ Model & 0.5 kHz & 1 kHz & 3 kHz & 6 kHz & 8 kHz & Overall & $\pm$10 dB (\%) \\
 \bottomrule
 \end{tabular}
 \par\smallskip\raggedright
-Development values are out-of-fold (5-fold cross-validation). External values come from models fitted once to the whole development cohort and applied unchanged. Copy: 0.5 and 1~kHz set to the measured 2~kHz threshold, 3~kHz to the mean of 2 and 4~kHz, and 6 and 8~kHz to the measured 4~kHz threshold, all in the same ear. Age-sex norm: median threshold by age decade and sex (participants aged 70 or over were assigned the 60--69 norm).
+Mean absolute error (dB) at each predicted frequency (both ears pooled), overall per-participant MAE, and percentage of predicted thresholds within $\pm$10~dB. Development values are out-of-fold (5-fold cross-validation). External values come from models fitted once to the whole development cohort and applied unchanged. Copy: 0.5 and 1~kHz set to the measured 2~kHz threshold, 3~kHz to the mean of 2 and 4~kHz, and 6 and 8~kHz to the measured 4~kHz threshold, all in the same ear. Age-sex norm: median threshold by age decade and sex (participants aged 70 or over were assigned the 60--69 norm).
 \end{table}
 """
 (TAB / "table2_mae.tex").write_text(t2, encoding="utf8")
@@ -282,7 +286,7 @@ for c, cl in [("dev", "Development"), ("ext_a", "External A"), ("ext_b", "Extern
         rows.append(f"\\quad {g} ({int(r.n):,}) & " + " & ".join(cells) + r" \\")
 t4 = r"""\begin{sidewaystable}
 \centering
-\caption{Subgroup audit of XGBoost threshold predictions: per-participant error, and group differences in signed error and calibration (reference: NH White).}
+\caption{Subgroup audit of XGBoost threshold predictions (reference group: NH White).}
 \label{tab:audit}
 \scriptsize
 \setlength{\tabcolsep}{3pt}
@@ -297,7 +301,7 @@ Group ($n$) & MAE & Mean signed error & (a) Signed error, raw & (b) Signed error
 \bottomrule
 \end{tabular}}
 \par\smallskip\raggedright
-Signed error = predicted $-$ true; a positive value means hearing is predicted to be worse than measured. Models (a)--(c) are linear regressions on long-format data (one row per participant and target) with target fixed effects and cluster-robust standard errors by participant. (b) adds a cubic B-spline (4 df) in the true threshold, interacted with target. (c) regresses the true threshold on a spline of the predicted threshold (calibration within groups); a negative coefficient means that, at the same prediction, the group's measured thresholds are better than predicted. Groups with fewer than 30 participants in a cohort are omitted.
+MAE and mean signed error are per-participant means (dB). Signed error = predicted $-$ true; a positive value means hearing is predicted to be worse than measured. Models (a)--(c) are linear regressions on long-format data (one row per participant and target) with target fixed effects and cluster-robust standard errors by participant. (b) adds a cubic B-spline (4 df) in the true threshold, interacted with target. (c) regresses the true threshold on a spline of the predicted threshold (calibration within groups); a negative coefficient means that, at the same prediction, the group's measured thresholds are better than predicted. Groups with fewer than 30 participants in a cohort are omitted.
 \end{sidewaystable}
 """
 (TAB / "table4_audit.tex").write_text(t4, encoding="utf8")

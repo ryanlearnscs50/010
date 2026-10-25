@@ -106,7 +106,7 @@ for cycle, (suf, cohort, auxf, demf, auqf) in CYCLES.items():
     step["n888_codes_all_ages"] = n888
     flow.append(step)
 
-    # Occupational noise (development cycles only; wording differs between cycles)
+    # Occupational noise (development cycles only; item AUQ330 in 2011-12 was renamed AUQ331 in 2015-16, same wording)
     if cohort == "dev":
         auq = read(auqf)
         col = "AUQ330" if "AUQ330" in auq.columns else "AUQ331"
